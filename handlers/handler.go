@@ -99,3 +99,20 @@ func (h *Handler) GetZipCode(zipcode map[string]int) echo.HandlerFunc {
 		return c.JSON(http.StatusOK, zipcode[zipname])
 	}
 }
+
+func (h *Handler) GetIDcard() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		idcard := c.Param("idcard")
+		return c.JSON(http.StatusOK, h.usecases.VerifyIDCardNumber(idcard))
+	}
+}
+
+func (h *Handler) PostIDcard() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		var postData models.PostIDcard
+		if err := c.Bind(&postData); err != nil { return c.JSON(http.StatusBadRequest, "") }
+
+		fmt.Printf("post data: %+v\n", postData)
+		return c.JSON(http.StatusOK, postData.IDCard)
+	}
+}

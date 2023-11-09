@@ -44,3 +44,10 @@ type TambonList struct {
 	UpdatedAt string `json:"updated_at"`
 	DeletedAt string `json:"deleted_at"`
 }
+
+type PostIDcard struct {
+	BirthDate string `json:"birthDate"`
+	MarriageStatus string `json:"marriageStatus"`
+	IDCard string `json:"idCard"`
+	LaserCode string `json:"laserCode"`
+}
