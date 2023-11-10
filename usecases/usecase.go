@@ -7,20 +7,23 @@ import (
 	"strconv"
 
 	"github.com/amerikarno/icoApi/models"
+	"github.com/google/uuid"
 )
 
-type Usecases struct{}
-
-func NewUsecases() *Usecases {
-	return &Usecases{}
+type OpenAccountUsecases struct{
+	oaRepository IOpenAccountsRepository
 }
 
-func (u *Usecases) VerifyEmailFormat(email string) bool {
+func NewOpenAccountUsecases(oaRepository IOpenAccountsRepository) *OpenAccountUsecases {
+	return &OpenAccountUsecases{oaRepository: oaRepository}
+}
+
+func (u *OpenAccountUsecases) VerifyEmailFormat(email string) bool {
 	emailPattern := regexp.MustCompile("[a-zA-Z0-9]@[a-zA-Z0-9].[a-zA-Z]")
 	return emailPattern.MatchString(email)
 }
 
-func (u *Usecases) VerifyMobileNoFormat(mobileno string) bool {
+func (u *OpenAccountUsecases) VerifyMobileNoFormat(mobileno string) bool {
 	localMobilePattern := regexp.MustCompile("^0[0-9]")
 	interMobilePattern := regexp.MustCompile("^66[0-9]")
 	if localMobilePattern.MatchString(mobileno) && len(mobileno) == 10 {
@@ -32,7 +35,7 @@ func (u *Usecases) VerifyMobileNoFormat(mobileno string) bool {
 	return localMobilePattern.MatchString(mobileno) && len(mobileno) == 10 || interMobilePattern.MatchString(mobileno) && len(mobileno) == 11
 }
 
-func (u *Usecases) VerifyIDCardNumber(idcard string) bool {
+func (u *OpenAccountUsecases) VerifyIDCardNumber(idcard string) bool {
 	if len(idcard) == 13 {
 		idcardbytes := []byte(idcard)
 		sum := 0
@@ -49,8 +52,9 @@ func (u *Usecases) VerifyIDCardNumber(idcard string) bool {
 	return false
 }
 
-func (u *Usecases) PostIDcardService(idcard models.PostIDcard) (err error) {
-
-
+func (u *OpenAccountUsecases) CreateIDCardOpenAccountUsecase(idcard models.IDCardOpenAccounts) (accountID string, err error) {
+	accountID = uuid.New().String()
+	idcard.AccountID = accountID
+	err  = u.oaRepository.CreateOpenAccount(idcard)
 	return
 }

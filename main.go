@@ -15,8 +15,12 @@ func main() {
 	filename := "json/api_province_with_amphure_tambon.json"
 	repo := repository.NewPATRepository(filename)
 	provinces, amphures, tambons, zipcode := repo.LoadPAT().GetProvinceAmphureTambonLists()
+
+	openAccountsDB := initOpenAccountsDB()
+	openAccountsRepo := repository.NewOpenAccountsRepository(openAccountsDB)
+
 	e := echo.New()
-	usecase := usecases.NewUsecases()
+	usecase := usecases.NewOpenAccountUsecases(openAccountsRepo)
 	handler := handlers.NewHandler(usecase)
 	e.GET("verify/email/:email", handler.VerifyEmailHandler())
 	e.GET("verify/mobile/:mobileno", handler.VerifyMobileNoHandler())
@@ -29,8 +33,8 @@ func main() {
 	e.Logger.Fatal(e.Start(":1323"))
 }
 
-func initDB() *gorm.DB {
-	dsn := "root:liverpool@tcp(127.0.0.1:3306)/exchanges?charset=utf8mb4&parseTime=True&loc=Local"
+func initOpenAccountsDB() *gorm.DB {
+	dsn := "root:liverpool@tcp(127.0.0.1:3306)/open_accounts?charset=utf8mb4&parseTime=True&loc=Local"
 	mysqldb, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal(err)

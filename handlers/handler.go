@@ -12,10 +12,10 @@ import (
 )
 
 type Handler struct {
-	usecases *usecases.Usecases
+	usecases *usecases.OpenAccountUsecases
 }
 
-func NewHandler(usecases *usecases.Usecases) *Handler {
+func NewHandler(usecases *usecases.OpenAccountUsecases) *Handler {
 	return &Handler{usecases: usecases}
 }
 
@@ -109,8 +109,10 @@ func (h *Handler) GetIDcard() echo.HandlerFunc {
 
 func (h *Handler) PostIDcard() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		var postData models.PostIDcard
-		if err := c.Bind(&postData); err != nil { return c.JSON(http.StatusBadRequest, "") }
+		var postData models.IDCardOpenAccounts
+		if err := c.Bind(&postData); err != nil {
+			return c.JSON(http.StatusBadRequest, "")
+		}
 
 		fmt.Printf("post data: %+v\n", postData)
 		return c.JSON(http.StatusOK, postData.IDCard)
