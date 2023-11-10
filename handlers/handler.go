@@ -115,6 +115,11 @@ func (h *Handler) PostIDcard() echo.HandlerFunc {
 		}
 
 		fmt.Printf("post data: %+v\n", postData)
-		return c.JSON(http.StatusOK, postData.IDCard)
+		id, err := h.usecases.CreateIDCardOpenAccountUsecase(postData)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, err)
+		}
+		fmt.Printf("account id: %v\n", id)
+		return c.JSON(http.StatusOK, id)
 	}
 }

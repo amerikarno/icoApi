@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 
+	"github.com/amerikarno/icoApi/external"
 	"github.com/amerikarno/icoApi/handlers"
 	"github.com/amerikarno/icoApi/repository"
 	"github.com/amerikarno/icoApi/usecases"
@@ -19,8 +20,9 @@ func main() {
 	openAccountsDB := initOpenAccountsDB()
 	openAccountsRepo := repository.NewOpenAccountsRepository(openAccountsDB)
 
+	external := external.NewExternalUuid()
 	e := echo.New()
-	usecase := usecases.NewOpenAccountUsecases(openAccountsRepo)
+	usecase := usecases.NewOpenAccountUsecases(openAccountsRepo, external)
 	handler := handlers.NewHandler(usecase)
 	e.GET("verify/email/:email", handler.VerifyEmailHandler())
 	e.GET("verify/mobile/:mobileno", handler.VerifyMobileNoHandler())

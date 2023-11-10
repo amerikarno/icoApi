@@ -46,9 +46,11 @@ type TambonList struct {
 }
 
 type IDCardOpenAccounts struct {
-	AccountID      string `json:"id"`
-	BirthDate      string `json:"birthDate"`
-	MarriageStatus string `json:"marriageStatus"`
-	IDCard         string `json:"idCard"`
-	LaserCode      string `json:"laserCode"`
+	AccountID      string `json:"id" gorm:"column:id"`
+	BirthDate      string `json:"birthDate" gorm:"column:birth_date"`
+	MarriageStatus string `json:"marriageStatus" gorm:"column:marriage_status"`
+	IDCard         string `json:"idCard" gorm:"column:id_card"`
+	LaserCode      string `json:"laserCode" gorm:"column:laser_code"`
 }
+
+func (IDCardOpenAccounts) TableName() string { return "personal_informations" }

@@ -7,15 +7,15 @@ import (
 	"strconv"
 
 	"github.com/amerikarno/icoApi/models"
-	"github.com/google/uuid"
 )
 
-type OpenAccountUsecases struct{
+type OpenAccountUsecases struct {
 	oaRepository IOpenAccountsRepository
+	external     IExternal
 }
 
-func NewOpenAccountUsecases(oaRepository IOpenAccountsRepository) *OpenAccountUsecases {
-	return &OpenAccountUsecases{oaRepository: oaRepository}
+func NewOpenAccountUsecases(oaRepository IOpenAccountsRepository, external IExternal) *OpenAccountUsecases {
+	return &OpenAccountUsecases{oaRepository: oaRepository, external: external}
 }
 
 func (u *OpenAccountUsecases) VerifyEmailFormat(email string) bool {
@@ -53,8 +53,8 @@ func (u *OpenAccountUsecases) VerifyIDCardNumber(idcard string) bool {
 }
 
 func (u *OpenAccountUsecases) CreateIDCardOpenAccountUsecase(idcard models.IDCardOpenAccounts) (accountID string, err error) {
-	accountID = uuid.New().String()
+	accountID = u.external.GenUuid()
 	idcard.AccountID = accountID
-	err  = u.oaRepository.CreateOpenAccount(idcard)
+	err = u.oaRepository.CreateOpenAccount(idcard)
 	return
 }
