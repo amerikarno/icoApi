@@ -72,6 +72,51 @@ func (h *Handler) VerifyEmailHandler() echo.HandlerFunc {
 		return c.JSON(http.StatusOK, response)
 	}
 }
+func (h *Handler) VerifyEmailMobileHandler() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		var response models.VerifyEmailMobileResponse
+		var pages string
+		response.RegistedMobileNo = strings.ToLower(c.Param("mobileno"))
+		response.IsInvalidMobileNoFormat = false
+
+		if !h.usecases.VerifyMobileNoFormat(response.RegistedMobileNo) {
+			log.Printf("error: failed to verify mobile no: %+v", response.RegistedMobileNo)
+			response.IsInvalidMobileNoFormat = true
+			return c.JSON(http.StatusBadRequest, response)
+		}
+
+		if response.RegistedMobileNo == "0881112233" {
+			pages = "3"
+			response.IsRegistedMobileno = true
+			response.RegistedPage = pages
+		} else {
+			response.IsRegistedMobileno = false
+			response.RegistedPage = pages
+		}
+
+		// fmt.Printf("response: %+v\n", response)
+		response.RegistedEmail = strings.ToLower(c.Param("email"))
+		response.IsInvalidEmailFormat = false
+
+		if !h.usecases.VerifyEmailFormat(response.RegistedEmail) {
+			log.Printf("error: failed to verify email: %+v", response.RegistedEmail)
+			response.IsInvalidEmailFormat = true
+			return c.JSON(http.StatusBadRequest, response)
+		}
+
+		if response.RegistedEmail == "registered@email.com" {
+			pages = "3"
+			response.IsRegistedEmail = true
+			response.RegistedPage = pages
+		} else {
+			response.IsRegistedEmail = false
+			response.RegistedPage = pages
+		}
+
+		fmt.Printf("response: %+v\n", response)
+		return c.JSON(http.StatusOK, response)
+	}
+}
 
 func (h *Handler) GetAllProvinces(provinces []string) echo.HandlerFunc {
 	return func(c echo.Context) error {

@@ -1,5 +1,14 @@
 package models
 
+type VerifyEmailMobileResponse struct {
+	IsRegistedEmail         bool   `json:"isRegisteredEmail"`
+	IsInvalidEmailFormat    bool   `json:"isInvalidEmailFormat"`
+	RegistedEmail           string `json:"registeredEmail"`
+	IsRegistedMobileno      bool   `json:"isRegisteredMobileNo"`
+	IsInvalidMobileNoFormat bool   `json:"isInvalidMobileNoFormat"`
+	RegistedMobileNo        string `json:"registeredMobileNo"`
+	RegistedPage            string `json:"registeredPage"`
+}
 type VerifyEmailResponse struct {
 	IsRegistedEmail      bool   `json:"isRegisteredEmail"`
 	IsInvalidEmailFormat bool   `json:"isInvalidEmailFormat"`

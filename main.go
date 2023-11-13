@@ -24,6 +24,7 @@ func main() {
 	e := echo.New()
 	usecase := usecases.NewOpenAccountUsecases(openAccountsRepo, external)
 	handler := handlers.NewHandler(usecase)
+	e.GET("verify/email/:email/mobile/:mobileno", handler.VerifyEmailMobileHandler())
 	e.GET("verify/email/:email", handler.VerifyEmailHandler())
 	e.GET("verify/mobile/:mobileno", handler.VerifyMobileNoHandler())
 	e.GET("api/v1/all_provinces", handler.GetAllProvinces(provinces))
