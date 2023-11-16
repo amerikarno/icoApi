@@ -37,7 +37,7 @@ func main() {
 }
 
 func initOpenAccountsDB() *gorm.DB {
-	dsn := "root:liverpool@tcp(127.0.0.1:3306)/open_accounts?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "root:password@tcp(127.0.0.1:3306)/open_accounts?charset=utf8mb4&parseTime=True&loc=Local"
 	mysqldb, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal(err)

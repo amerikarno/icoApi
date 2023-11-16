@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/amerikarno/icoApi/models"
 	"github.com/amerikarno/icoApi/usecases"
@@ -158,6 +159,9 @@ func (h *Handler) PostIDcard() echo.HandlerFunc {
 		if err := c.Bind(&postData); err != nil {
 			return c.JSON(http.StatusBadRequest, "")
 		}
+
+		postData.Pages = true
+		postData.Create = time.Now().Local()
 
 		fmt.Printf("post data: %+v\n", postData)
 		id, err := h.usecases.CreateIDCardOpenAccountUsecase(postData)
