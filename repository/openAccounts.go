@@ -13,6 +13,33 @@ func NewOpenAccountsRepository(db *gorm.DB) *OpenAccountsRepository {
 	return &OpenAccountsRepository{db: db}
 }
 
-func (e *OpenAccountsRepository) CreateOpenAccount(columns models.IDCardOpenAccounts) error {
+func (e *OpenAccountsRepository) CreateCustomerInformation(columns models.CustomerInformations) error {
 	return e.db.Debug().Create(columns).Error
+}
+
+func (e *OpenAccountsRepository) CreateCustomerAddresses(columns models.CustomerAddresses) error {
+	return e.db.Debug().Create(columns).Error
+}
+
+func (e *OpenAccountsRepository) CreateCustomerBookbanks(columns models.CustomerBookbanks) error {
+	return e.db.Debug().Create(columns).Error
+}
+
+func (e *OpenAccountsRepository) UpdatePersonalInformation(personalInfos models.PersonalInformations) error {
+	tx := e.db.Begin()
+	if err := tx.Updates(personalInfos.CustomerInformation).Where(personalInfos.CustomerInformation.AccountID).Error; err != nil {
+		return err
+	}
+
+	if err := tx.Create(personalInfos.CustomerAddresseLists).Error; err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	if err := tx.Create(personalInfos.CustomerBookbankLists).Error; err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	return nil
 }

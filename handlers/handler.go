@@ -155,7 +155,7 @@ func (h *Handler) GetIDcard() echo.HandlerFunc {
 
 func (h *Handler) PostIDcard() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		var postData models.IDCardOpenAccounts
+		var postData models.CustomerInformations
 		if err := c.Bind(&postData); err != nil {
 			return c.JSON(http.StatusBadRequest, "")
 		}
@@ -164,7 +164,24 @@ func (h *Handler) PostIDcard() echo.HandlerFunc {
 		postData.Create = time.Now().Local()
 
 		fmt.Printf("post data: %+v\n", postData)
-		id, err := h.usecases.CreateIDCardOpenAccountUsecase(postData)
+		id, err := h.usecases.CreateCustomerInformationUsecase(postData)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, err)
+		}
+		fmt.Printf("account id: %v\n", id)
+		return c.JSON(http.StatusOK, id)
+	}
+}
+
+func (h *Handler) PostPersonalInformations() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		var postData models.PersonalInformations
+		if err := c.Bind(&postData); err != nil {
+			return c.JSON(http.StatusBadRequest, "")
+		}
+
+		fmt.Printf("post data: %+v\n", postData)
+		id, err := h.usecases.UpdateCustomerPersonalInformationUsecase(postData)
 		if err != nil {
 			return c.JSON(http.StatusBadRequest, err)
 		}

@@ -44,7 +44,7 @@ func (s *ServiceTestSuite) Test_VerifyIDCardNumber() {
 }
 
 func (s *ServiceTestSuite) Test_CreateIDCardOpenAccountUsecase() {
-	idcard := models.IDCardOpenAccounts{
+	idcard := models.CustomerInformations{
 		AccountID:      "account-id1",
 		BirthDate:      "1 เม.ย. 2521",
 		MarriageStatus: "โสด",
@@ -53,9 +53,9 @@ func (s *ServiceTestSuite) Test_CreateIDCardOpenAccountUsecase() {
 	}
 	s.ex.EXPECT().GenUuid().Return("account-id1")
 
-	s.oa.EXPECT().CreateOpenAccount(idcard).Return(nil)
+	s.oa.EXPECT().CreateCustomerInformation(idcard).Return(nil)
 
-	actual, err := s.uc.CreateIDCardOpenAccountUsecase(idcard)
+	actual, err := s.uc.CreateCustomerInformationUsecase(idcard)
 
 	expected := "account-id1"
 	s.Equal(expected, actual)

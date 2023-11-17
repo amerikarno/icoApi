@@ -34,18 +34,32 @@ func (m *MockIOpenAccountsRepository) EXPECT() *MockIOpenAccountsRepositoryMockR
 	return m.recorder
 }
 
-// CreateOpenAccount mocks base method.
-func (m *MockIOpenAccountsRepository) CreateOpenAccount(columns models.IDCardOpenAccounts) error {
+// CreateCustomerInformation mocks base method.
+func (m *MockIOpenAccountsRepository) CreateCustomerInformation(columns models.CustomerInformations) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateOpenAccount", columns)
+	ret := m.ctrl.Call(m, "CreateCustomerInformation", columns)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// CreateOpenAccount indicates an expected call of CreateOpenAccount.
-func (mr *MockIOpenAccountsRepositoryMockRecorder) CreateOpenAccount(columns interface{}) *gomock.Call {
+// CreateCustomerInformation indicates an expected call of CreateCustomerInformation.
+func (mr *MockIOpenAccountsRepositoryMockRecorder) CreateCustomerInformation(columns interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateOpenAccount", reflect.TypeOf((*MockIOpenAccountsRepository)(nil).CreateOpenAccount), columns)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateCustomerInformation", reflect.TypeOf((*MockIOpenAccountsRepository)(nil).CreateCustomerInformation), columns)
+}
+
+// UpdatePersonalInformation mocks base method.
+func (m *MockIOpenAccountsRepository) UpdatePersonalInformation(personalInfos models.PersonalInformations) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdatePersonalInformation", personalInfos)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdatePersonalInformation indicates an expected call of UpdatePersonalInformation.
+func (mr *MockIOpenAccountsRepositoryMockRecorder) UpdatePersonalInformation(personalInfos interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdatePersonalInformation", reflect.TypeOf((*MockIOpenAccountsRepository)(nil).UpdatePersonalInformation), personalInfos)
 }
 
 // MockIExternal is a mock of IExternal interface.

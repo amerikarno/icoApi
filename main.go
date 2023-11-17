@@ -33,6 +33,7 @@ func main() {
 	e.GET("api/v1/zipcode/:zipname", handler.GetZipCode(zipcode))
 	e.GET("api/v1/idcard/:idcard", handler.GetIDcard())
 	e.POST("api/v1/idcard", handler.PostIDcard())
+	e.POST("api/v1/personalInformation", handler.PostPersonalInformations())
 	e.Logger.Fatal(e.Start(":1323"))
 }
 

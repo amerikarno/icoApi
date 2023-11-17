@@ -52,9 +52,15 @@ func (u *OpenAccountUsecases) VerifyIDCardNumber(idcard string) bool {
 	return false
 }
 
-func (u *OpenAccountUsecases) CreateIDCardOpenAccountUsecase(idcard models.IDCardOpenAccounts) (accountID string, err error) {
+func (u *OpenAccountUsecases) CreateCustomerInformationUsecase(idcard models.CustomerInformations) (accountID string, err error) {
 	accountID = u.external.GenUuid()
 	idcard.AccountID = accountID
-	err = u.oaRepository.CreateOpenAccount(idcard)
+	err = u.oaRepository.CreateCustomerInformation(idcard)
+	return
+}
+
+func (u *OpenAccountUsecases) UpdateCustomerPersonalInformationUsecase(personalInfo models.PersonalInformations) (accountID string, err error) {
+	accountID = personalInfo.CustomerInformation.AccountID
+	err = u.oaRepository.UpdatePersonalInformation(personalInfo)
 	return
 }
