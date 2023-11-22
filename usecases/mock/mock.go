@@ -49,17 +49,17 @@ func (mr *MockIOpenAccountsRepositoryMockRecorder) CreateCustomerInformation(col
 }
 
 // UpdatePersonalInformation mocks base method.
-func (m *MockIOpenAccountsRepository) UpdatePersonalInformation(personalInfos models.PersonalInformations) error {
+func (m *MockIOpenAccountsRepository) UpdatePersonalInformation(personalInfos models.PersonalInformations, cid string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdatePersonalInformation", personalInfos)
+	ret := m.ctrl.Call(m, "UpdatePersonalInformation", personalInfos, cid)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdatePersonalInformation indicates an expected call of UpdatePersonalInformation.
-func (mr *MockIOpenAccountsRepositoryMockRecorder) UpdatePersonalInformation(personalInfos interface{}) *gomock.Call {
+func (mr *MockIOpenAccountsRepositoryMockRecorder) UpdatePersonalInformation(personalInfos, cid interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdatePersonalInformation", reflect.TypeOf((*MockIOpenAccountsRepository)(nil).UpdatePersonalInformation), personalInfos)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdatePersonalInformation", reflect.TypeOf((*MockIOpenAccountsRepository)(nil).UpdatePersonalInformation), personalInfos, cid)
 }
 
 // MockIExternal is a mock of IExternal interface.

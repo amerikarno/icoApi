@@ -57,22 +57,28 @@ type TambonList struct {
 }
 
 type CustomerInformations struct {
-	AccountID      string    `json:"id" gorm:"column:id"`
-	ThTitle        string    `json:"thTitle" gorm:"column:th_title"`
-	ThName         string    `json:"thName" gorm:"column:th_name"`
-	ThSurname      string    `json:"thSurname" gorm:"column:th_surname"`
-	EngTitle       string    `json:"engTitle" gorm:"column:en_title"`
-	EngName        string    `json:"engName" gorm:"column:en_name"`
-	EngSurname     string    `json:"engSurname" gorm:"column:en_surname"`
-	Email          string    `json:"email" gorm:"column:email"`
-	Mobile         string    `json:"mobile" gorm:"column:mobile_no"`
-	Agreement      bool      `json:"agreement" gorm:"column:personal_agreement"`
-	BirthDate      string    `json:"birthDate" gorm:"column:birth_date"`
-	MarriageStatus string    `json:"marriageStatus" gorm:"column:marriage_status"`
-	IDCard         string    `json:"idCard" gorm:"column:id_card"`
-	LaserCode      string    `json:"laserCode" gorm:"column:laser_code"`
-	Pages          bool      `json:"pages" gorm:"column:personal_pages"`
-	Create         time.Time `json:"create" gorm:"column:create_at"`
+	AccountID         string    `json:"id" gorm:"column:id"`
+	ThTitle           string    `json:"thTitle" gorm:"column:th_title"`
+	ThName            string    `json:"thName" gorm:"column:th_name"`
+	ThSurname         string    `json:"thSurname" gorm:"column:th_surname"`
+	EngTitle          string    `json:"engTitle" gorm:"column:en_title"`
+	EngName           string    `json:"engName" gorm:"column:en_name"`
+	EngSurname        string    `json:"engSurname" gorm:"column:en_surname"`
+	Email             string    `json:"email" gorm:"column:email"`
+	Mobile            string    `json:"mobile" gorm:"column:mobile_no"`
+	Agreement         bool      `json:"agreement" gorm:"column:personal_agreement"`
+	BirthDate         string    `json:"birthDate" gorm:"column:birth_date"`
+	MarriageStatus    string    `json:"marriageStatus" gorm:"column:marriage_status"`
+	IDCard            string    `json:"idCard" gorm:"column:id_card"`
+	LaserCode         string    `json:"laserCode" gorm:"column:laser_code"`
+	SourceOfIncome    string    `json:"sourceOfIncome" gorm:"column:source_of_income"`
+	CurrentOccupation string    `json:"currentOccupation" gorm:"column:current_occupation"`
+	OfficeName        string    `json:"officeName" gorm:"column:office_name"`
+	TypeOfBusiness    string    `json:"typeOfBusiness" gorm:"column:type_of_business"`
+	PositionName      string    `json:"positionName" gorm:"column:position_name"`
+	SalaryRange       string    `json:"salaryRange" gorm:"column:salary_range"`
+	Pages             bool      `json:"pages" gorm:"column:personal_pages"`
+	Create            time.Time `json:"create" gorm:"column:create_at"`
 }
 
 func (CustomerInformations) TableName() string { return "customer_informations" }
@@ -80,7 +86,7 @@ func (CustomerInformations) TableName() string { return "customer_informations" 
 type CustomerAddressRequest struct {
 	AccountID       string    `json:"id" gorm:"column:customer_id"`
 	HomeNumber      string    `json:"homeNumber" gorm:"column:home_number"`
-	VillageNumber   int       `json:"villageNumber" gorm:"column:village_number"`
+	VillageNumber   string    `json:"villageNumber" gorm:"column:village_number"`
 	VillageName     string    `json:"villageName" gorm:"column:village_name"`
 	SubStreetName   string    `json:"subStreetName" gorm:"column:sub_street_name"`
 	StreetName      string    `json:"streetName" gorm:"column:street_name"`
@@ -95,7 +101,7 @@ type CustomerAddressRequest struct {
 type CustomerAddresses struct {
 	AccountID           string    `json:"id" gorm:"column:customer_id"`
 	HomeNumber          string    `json:"homeNumber" gorm:"column:home_number"`
-	VillageNumber       int       `json:"villageNumber" gorm:"column:village_number"`
+	VillageNumber       string    `json:"villageNumber" gorm:"column:village_number"`
 	VillageName         string    `json:"villageName" gorm:"column:village_name"`
 	SubStreetName       string    `json:"subStreetName" gorm:"column:sub_street_name"`
 	StreetName          string    `json:"streetName" gorm:"column:street_name"`
@@ -144,4 +150,24 @@ type PersonalInformations struct {
 	CustomerInformation   CustomerInformations      `json:"customerInformation"`
 	CustomerAddresseLists []CustomerAddressRequest  `json:"customerAddresseLists"`
 	CustomerBookbankLists []CustomerBookbankRequest `json:"customerBookbankLits"`
+}
+
+type PersonalInformationPostRequests struct {
+	CID               string                    `json:"cid"`
+	RegisteredAddress CustomerAddressRequest    `json:"registeredAddress"`
+	CurrentAddress    CustomerAddressRequest    `json:"currentAddress"`
+	OfficeAddress     CustomerAddressRequest    `json:"officeAddress"`
+	Occupation        CustomerOccupationRequest `json:"occupation"`
+	FirstBankAccount  CustomerBookbankRequest   `json:"firstBankAccount"`
+	SecondBankAccount CustomerBookbankRequest   `json:"secondBankAccount"`
+}
+
+type CustomerOccupationRequest struct {
+	AccountID         string `json:"id" gorm:"column:customer_id"`
+	SourceOfIncome    string `json:"sourceOfIncome" gorm:"column:source_of_income"`
+	CurrentOccupation string `json:"currentOccupation" gorm:"column:current_occupation"`
+	OfficeName        string `json:"officeName" gorm:"column:office_name"`
+	TypeOfBusiness    string `json:"typeOfBusiness" gorm:"column:type_of_business"`
+	PositionName      string `json:"positionName" gorm:"column:position_name"`
+	SalaryRange       string `json:"salaryRange" gorm:"column:salary_range"`
 }

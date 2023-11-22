@@ -175,8 +175,9 @@ func (h *Handler) PostIDcard() echo.HandlerFunc {
 
 func (h *Handler) PostPersonalInformations() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		var postData models.PersonalInformations
+		var postData models.PersonalInformationPostRequests
 		if err := c.Bind(&postData); err != nil {
+			fmt.Printf("error: %v\n", err)
 			return c.JSON(http.StatusBadRequest, "")
 		}
 

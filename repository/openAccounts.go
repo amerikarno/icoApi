@@ -25,9 +25,10 @@ func (e *OpenAccountsRepository) CreateCustomerBookbanks(columns models.Customer
 	return e.db.Debug().Create(columns).Error
 }
 
-func (e *OpenAccountsRepository) UpdatePersonalInformation(personalInfos models.PersonalInformations) error {
+func (e *OpenAccountsRepository) UpdatePersonalInformation(personalInfos models.PersonalInformations, cid string) error {
 	tx := e.db.Begin()
-	if err := tx.Updates(personalInfos.CustomerInformation).Where(personalInfos.CustomerInformation.AccountID).Error; err != nil {
+
+	if err := tx.Updates(personalInfos.CustomerInformation).Where(cid).Error; err != nil {
 		return err
 	}
 
