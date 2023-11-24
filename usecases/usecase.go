@@ -71,26 +71,30 @@ func (u *OpenAccountUsecases) UpdateCustomerPersonalInformationUsecase(personalI
 	pInfo.CustomerInformation.TypeOfBusiness = personalInfo.Occupation.TypeOfBusiness
 	pInfo.CustomerInformation.PositionName = personalInfo.Occupation.PositionName
 	pInfo.CustomerInformation.SalaryRange = personalInfo.Occupation.SalaryRange
-	pInfo.CustomerAddresseLists = append(pInfo.CustomerAddresseLists, models.CustomerAddressRequest{
-		AccountID:       accountID,
-		HomeNumber:      personalInfo.RegisteredAddress.HomeNumber,
-		VillageNumber:   personalInfo.RegisteredAddress.VillageNumber,
-		VillageName:     personalInfo.RegisteredAddress.VillageName,
-		SubStreetName:   personalInfo.RegisteredAddress.StreetName,
-		StreetName:      personalInfo.RegisteredAddress.StreetName,
-		SubDistrictName: personalInfo.RegisteredAddress.SubDistrictName,
-		DistrictName:    personalInfo.RegisteredAddress.DistrictName,
-		ProvinceName:    personalInfo.RegisteredAddress.ProvinceName,
-		ZipCode:         personalInfo.RegisteredAddress.ZipCode,
-		CountryName:     personalInfo.RegisteredAddress.CountryName,
-		TypeOfAddress:   "r",
-		Create:          now,
+	pInfo.CustomerInformation.Update = now
+	pInfo.CustomerAddresseLists = append(pInfo.CustomerAddresseLists, models.CustomerAddressResponse{
+		AccountID:           accountID,
+		HomeNumber:          personalInfo.RegisteredAddress.HomeNumber,
+		VillageNumber:       personalInfo.RegisteredAddress.VillageNumber,
+		VillageName:         personalInfo.RegisteredAddress.VillageName,
+		SubStreetName:       personalInfo.RegisteredAddress.StreetName,
+		StreetName:          personalInfo.RegisteredAddress.StreetName,
+		SubDistrictName:     personalInfo.RegisteredAddress.SubDistrictName,
+		DistrictName:        personalInfo.RegisteredAddress.DistrictName,
+		ProvinceName:        personalInfo.RegisteredAddress.ProvinceName,
+		ZipCode:             personalInfo.RegisteredAddress.ZipCode,
+		CountryName:         personalInfo.RegisteredAddress.CountryName,
+		IsRegisteredAddress: true,
+		Create:              now,
 	})
 
-	if personalInfo.CurrentAddress.TypeOfAddress == "r" {
-		pInfo.CustomerAddresseLists[0].TypeOfAddress = "r|c"
-	} else {
-		pInfo.CustomerAddresseLists = append(pInfo.CustomerAddresseLists, models.CustomerAddressRequest{
+	if personalInfo.CurrentAddress.TypeOfAddress == "SelectedCurrentAddressEnum.registered" {
+		pInfo.CustomerAddresseLists[0].IsCurrentAddress = true
+		// fmt.Printf("current1: %+v\n", personalInfo.CurrentAddress.TypeOfAddress)
+	} else if personalInfo.CurrentAddress.TypeOfAddress == "SelectedCurrentAddressEnum.current" {
+		fmt.Printf("current2: %+v\n", personalInfo.CurrentAddress.TypeOfAddress)
+		pInfo.CustomerAddresseLists[0].IsCurrentAddress = false
+		pInfo.CustomerAddresseLists = append(pInfo.CustomerAddresseLists, models.CustomerAddressResponse{
 			AccountID:       accountID,
 			HomeNumber:      personalInfo.CurrentAddress.HomeNumber,
 			VillageNumber:   personalInfo.CurrentAddress.VillageNumber,
@@ -102,19 +106,34 @@ func (u *OpenAccountUsecases) UpdateCustomerPersonalInformationUsecase(personalI
 			ProvinceName:    personalInfo.CurrentAddress.ProvinceName,
 			ZipCode:         personalInfo.CurrentAddress.ZipCode,
 			CountryName:     personalInfo.CurrentAddress.CountryName,
-			TypeOfAddress:   "c",
-			Create:          now,
+			// TypeOfAddress:   "c",
+			IsCurrentAddress: true,
+			Create:           now,
 		})
 	}
 
-	if personalInfo.CurrentAddress.TypeOfAddress == "r" && (personalInfo.OfficeAddress.TypeOfAddress == "r" || personalInfo.OfficeAddress.TypeOfAddress == "c") {
-		pInfo.CustomerAddresseLists[0].TypeOfAddress = "r|c|o"
-	} else if personalInfo.CurrentAddress.TypeOfAddress == "c" && personalInfo.OfficeAddress.TypeOfAddress == "r" {
-		pInfo.CustomerAddresseLists[0].TypeOfAddress = "r|o"
-	} else if personalInfo.CurrentAddress.TypeOfAddress == "c" && personalInfo.OfficeAddress.TypeOfAddress == "c" {
-		pInfo.CustomerAddresseLists[1].TypeOfAddress = "c|o"
-	} else {
-		pInfo.CustomerAddresseLists = append(pInfo.CustomerAddresseLists, models.CustomerAddressRequest{
+	fmt.Printf("address list: %+v\n", pInfo.CustomerAddresseLists)
+
+	if personalInfo.CurrentAddress.TypeOfAddress == "SelectedCurrentAddressEnum.registered" &&
+		(personalInfo.OfficeAddress.TypeOfAddress == "SelectedOfficeAddressEnum.registered" || personalInfo.OfficeAddress.TypeOfAddress == "SelectedOfficeAddressEnum.current") {
+		// pInfo.CustomerAddresseLists[0].TypeOfAddress = "r|c|o"
+		pInfo.CustomerAddresseLists[0].IsOfficeAddress = true
+		fmt.Printf("office1: %+v\n", personalInfo.OfficeAddress.TypeOfAddress)
+	} else if personalInfo.CurrentAddress.TypeOfAddress == "SelectedCurrentAddressEnum.current" && personalInfo.OfficeAddress.TypeOfAddress == "SelectedOfficeAddressEnum.registered" {
+		// pInfo.CustomerAddresseLists[0].TypeOfAddress = "r|o"
+		pInfo.CustomerAddresseLists[0].IsOfficeAddress = true
+		pInfo.CustomerAddresseLists[1].IsOfficeAddress = false
+		fmt.Printf("office2: %+v\n", personalInfo.OfficeAddress.TypeOfAddress)
+	} else if personalInfo.CurrentAddress.TypeOfAddress == "SelectedCurrentAddressEnum.current" && personalInfo.OfficeAddress.TypeOfAddress == "SelectedOfficeAddressEnum.current" {
+		// pInfo.CustomerAddresseLists[1].TypeOfAddress = "c|o"
+		pInfo.CustomerAddresseLists[0].IsOfficeAddress = false
+		pInfo.CustomerAddresseLists[1].IsOfficeAddress = true
+		fmt.Printf("office3: %+v\n", personalInfo.OfficeAddress.TypeOfAddress)
+	} else if personalInfo.OfficeAddress.TypeOfAddress == "SelectedOfficeAddressEnum.office" {
+		fmt.Printf("office4: %+v\n", personalInfo.OfficeAddress.TypeOfAddress)
+		pInfo.CustomerAddresseLists[0].IsOfficeAddress = false
+		pInfo.CustomerAddresseLists[1].IsOfficeAddress = false
+		pInfo.CustomerAddresseLists = append(pInfo.CustomerAddresseLists, models.CustomerAddressResponse{
 			AccountID:       accountID,
 			HomeNumber:      personalInfo.OfficeAddress.HomeNumber,
 			VillageNumber:   personalInfo.OfficeAddress.VillageNumber,
@@ -126,11 +145,39 @@ func (u *OpenAccountUsecases) UpdateCustomerPersonalInformationUsecase(personalI
 			ProvinceName:    personalInfo.OfficeAddress.ProvinceName,
 			ZipCode:         personalInfo.OfficeAddress.ZipCode,
 			CountryName:     personalInfo.OfficeAddress.CountryName,
-			TypeOfAddress:   "o",
+			// TypeOfAddress:   "o",
+			IsOfficeAddress: true,
 			Create:          now,
 		})
 	}
-	// err = u.oaRepository.UpdatePersonalInformation(pInfo, accountID)
+
+	pInfo.CustomerBookbankLists = append(pInfo.CustomerBookbankLists, models.CustomerBookbankResponse{
+		AccountID:         accountID,
+		BankName:          personalInfo.FirstBankAccount.BankName,
+		BankBranchName:    personalInfo.FirstBankAccount.BankBranchName,
+		BankAccountNumber: personalInfo.FirstBankAccount.BankAccountNumber,
+		IsDefalut:         true,
+		IsDeposit:         true,
+		IsWithdraw:        true,
+		Create:            now,
+	})
+
+	if personalInfo.SecondBankAccount.BankName != "" {
+		pInfo.CustomerBookbankLists = append(pInfo.CustomerBookbankLists, models.CustomerBookbankResponse{
+			AccountID:         accountID,
+			BankName:          personalInfo.SecondBankAccount.BankName,
+			BankBranchName:    personalInfo.SecondBankAccount.BankBranchName,
+			BankAccountNumber: personalInfo.SecondBankAccount.BankAccountNumber,
+			IsDeposit:         true,
+			Create:            now,
+		})
+	}
+
+	fmt.Printf("address list: %+v\n", pInfo.CustomerAddresseLists)
+	if err = u.oaRepository.UpdatePersonalInformation(pInfo, accountID); err != nil {
+		accountID = ""
+		return
+	}
 	fmt.Printf("accountID: %v\npersonal info: %v\n", accountID, pInfo)
 	return
 }

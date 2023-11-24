@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"log"
+
 	"github.com/amerikarno/icoApi/models"
 	"gorm.io/gorm"
 )
@@ -29,18 +31,23 @@ func (e *OpenAccountsRepository) UpdatePersonalInformation(personalInfos models.
 	tx := e.db.Begin()
 
 	if err := tx.Updates(personalInfos.CustomerInformation).Where(cid).Error; err != nil {
+		log.Printf("error1: %v", err)
 		return err
 	}
-
+	
 	if err := tx.Create(personalInfos.CustomerAddresseLists).Error; err != nil {
+		log.Printf("error2: %v", err)
+		tx.Rollback()
+		return err
+	}
+	
+	if err := tx.Create(personalInfos.CustomerBookbankLists).Error; err != nil {
+		log.Printf("error3: %v", err)
 		tx.Rollback()
 		return err
 	}
 
-	if err := tx.Create(personalInfos.CustomerBookbankLists).Error; err != nil {
-		tx.Rollback()
-		return err
-	}
+	tx.Commit()
 
 	return nil
 }

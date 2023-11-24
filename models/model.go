@@ -78,26 +78,54 @@ type CustomerInformations struct {
 	PositionName      string    `json:"positionName" gorm:"column:position_name"`
 	SalaryRange       string    `json:"salaryRange" gorm:"column:salary_range"`
 	Pages             bool      `json:"pages" gorm:"column:personal_pages"`
+	Update            time.Time `json:"update" gorm:"column:update_at"`
 	Create            time.Time `json:"create" gorm:"column:create_at"`
 }
 
 func (CustomerInformations) TableName() string { return "customer_informations" }
 
 type CustomerAddressRequest struct {
-	AccountID       string    `json:"id" gorm:"column:customer_id"`
-	HomeNumber      string    `json:"homeNumber" gorm:"column:home_number"`
-	VillageNumber   string    `json:"villageNumber" gorm:"column:village_number"`
-	VillageName     string    `json:"villageName" gorm:"column:village_name"`
-	SubStreetName   string    `json:"subStreetName" gorm:"column:sub_street_name"`
-	StreetName      string    `json:"streetName" gorm:"column:street_name"`
-	SubDistrictName string    `json:"subDistrictName" gorm:"column:sub_district_name"`
-	DistrictName    string    `json:"districtName" gorm:"column:district_name"`
-	ProvinceName    string    `json:"provinceName" gorm:"column:province_name"`
-	ZipCode         string    `json:"zipCode" gorm:"column:zipcode"`
-	CountryName     string    `json:"countryName" gorm:"column:country_name"`
-	TypeOfAddress   string    `json:"typeOfAddress" gorm:"column:type_of_address"`
-	Create          time.Time `json:"create" gorm:"column:create_at"`
+	AccountID           string    `json:"id" gorm:"column:customer_id"`
+	HomeNumber          string    `json:"homeNumber" gorm:"column:home_number"`
+	VillageNumber       string    `json:"villageNumber" gorm:"column:village_number"`
+	VillageName         string    `json:"villageName" gorm:"column:village_name"`
+	SubStreetName       string    `json:"subStreetName" gorm:"column:sub_street_name"`
+	StreetName          string    `json:"streetName" gorm:"column:street_name"`
+	SubDistrictName     string    `json:"subDistrictName" gorm:"column:sub_district_name"`
+	DistrictName        string    `json:"districtName" gorm:"column:district_name"`
+	ProvinceName        string    `json:"provinceName" gorm:"column:province_name"`
+	ZipCode             string    `json:"zipCode" gorm:"column:zipcode"`
+	CountryName         string    `json:"countryName" gorm:"column:country_name"`
+	TypeOfAddress       string    `json:"typeOfAddress"` //gorm:"column:type_of_address"`
+	IsRegisteredAddress bool      `json:"isRegisteredAddress" gorm:"column:is_registered_address"`
+	IsCurrentAddress    bool      `json:"isCurrentAddress" gorm:"column:is_current_address"`
+	IsOfficeAddress     bool      `json:"isOfficeAddress" gorm:"column:is_office_address"`
+	Create              time.Time `json:"create" gorm:"column:create_at"`
 }
+
+func (CustomerAddressRequest) TableName() string { return "customer_addresses" }
+
+type CustomerAddressResponse struct {
+	AccountID       string `json:"id" gorm:"column:customer_id"`
+	HomeNumber      string `json:"homeNumber" gorm:"column:home_number"`
+	VillageNumber   string `json:"villageNumber" gorm:"column:village_number"`
+	VillageName     string `json:"villageName" gorm:"column:village_name"`
+	SubStreetName   string `json:"subStreetName" gorm:"column:sub_street_name"`
+	StreetName      string `json:"streetName" gorm:"column:street_name"`
+	SubDistrictName string `json:"subDistrictName" gorm:"column:sub_district_name"`
+	DistrictName    string `json:"districtName" gorm:"column:district_name"`
+	ProvinceName    string `json:"provinceName" gorm:"column:province_name"`
+	ZipCode         string `json:"zipCode" gorm:"column:zipcode"`
+	CountryName     string `json:"countryName" gorm:"column:country_name"`
+	// TypeOfAddress   string    `json:"typeOfAddress"` //gorm:"column:type_of_address"`
+	IsRegisteredAddress bool      `json:"isRegisteredAddress" gorm:"column:is_registered_address"`
+	IsCurrentAddress    bool      `json:"isCurrentAddress" gorm:"column:is_current_address"`
+	IsOfficeAddress     bool      `json:"isOfficeAddress" gorm:"column:is_office_address"`
+	Create              time.Time `json:"create" gorm:"column:create_at"`
+}
+
+func (CustomerAddressResponse) TableName() string { return "customer_addresses" }
+
 type CustomerAddresses struct {
 	AccountID           string    `json:"id" gorm:"column:customer_id"`
 	HomeNumber          string    `json:"homeNumber" gorm:"column:home_number"`
@@ -133,6 +161,23 @@ type CustomerBookbankRequest struct {
 	AccountType       string    `json:"accountType" gorm:"column:account_type"`
 	Create            time.Time `json:"create" gorm:"column:create_at"`
 }
+
+func (CustomerBookbankRequest) TableName() string { return "customer_bookbanks" }
+
+type CustomerBookbankResponse struct {
+	AccountID         string `json:"id" gorm:"column:customer_id"`
+	BankName          string `json:"bankName" gorm:"column:bank_name"`
+	BankBranchName    string `json:"bankBranchName" gorm:"column:bank_branch_name"`
+	BankAccountNumber string `json:"bankAccountNumber" gorm:"column:bank_account_number"`
+	IsDefalut         bool   `json:"isDefalut" gorm:"column:is_default"`
+	// AccountType       string    `json:"accountType" gorm:"column:account_type"`
+	IsDeposit  bool      `json:"isDeposit" gorm:"column:is_deposit"`
+	IsWithdraw bool      `json:"isWithdraw" gorm:"column:is_withdraw"`
+	Create     time.Time `json:"create" gorm:"column:create_at"`
+}
+
+func (CustomerBookbankResponse) TableName() string { return "customer_bookbanks" }
+
 type CustomerBookbanks struct {
 	AccountID         string    `json:"id" gorm:"column:customer_id"`
 	BankName          string    `json:"bankName" gorm:"column:bank_name"`
@@ -148,8 +193,8 @@ func (CustomerBookbanks) TableName() string { return "customer_bookbanks" }
 
 type PersonalInformations struct {
 	CustomerInformation   CustomerInformations      `json:"customerInformation"`
-	CustomerAddresseLists []CustomerAddressRequest  `json:"customerAddresseLists"`
-	CustomerBookbankLists []CustomerBookbankRequest `json:"customerBookbankLits"`
+	CustomerAddresseLists []CustomerAddressResponse `json:"customerAddresseLists"`
+	CustomerBookbankLists []CustomerBookbankResponse `json:"customerBookbankLits"`
 }
 
 type PersonalInformationPostRequests struct {
