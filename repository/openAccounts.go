@@ -34,13 +34,13 @@ func (e *OpenAccountsRepository) UpdatePersonalInformation(personalInfos models.
 		log.Printf("error1: %v", err)
 		return err
 	}
-	
+
 	if err := tx.Create(personalInfos.CustomerAddresseLists).Error; err != nil {
 		log.Printf("error2: %v", err)
 		tx.Rollback()
 		return err
 	}
-	
+
 	if err := tx.Create(personalInfos.CustomerBookbankLists).Error; err != nil {
 		log.Printf("error3: %v", err)
 		tx.Rollback()
