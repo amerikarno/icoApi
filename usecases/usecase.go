@@ -3,6 +3,7 @@ package usecases
 import (
 	"fmt"
 	"log"
+	"net/mail"
 	"regexp"
 	"strconv"
 	"time"
@@ -20,8 +21,13 @@ func NewOpenAccountUsecases(oaRepository IOpenAccountsRepository, external IExte
 }
 
 func (u *OpenAccountUsecases) VerifyEmailFormat(email string) bool {
-	emailPattern := regexp.MustCompile("[a-zA-Z0-9]@[a-zA-Z0-9].[a-zA-Z]")
-	return emailPattern.MatchString(email)
+	// emailPattern1 := regexp.MustCompile("[a-zA-Z0-9]@[a-zA-Z0-9][.][a-zA-Z]")
+	// return emailPattern1.Match([]byte(email))
+	if _, err := mail.ParseAddress(email); err != nil {
+		fmt.Printf("error: %v\n", err)
+		return false
+	}
+	return true
 }
 
 func (u *OpenAccountUsecases) VerifyMobileNoFormat(mobileno string) bool {

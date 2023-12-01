@@ -61,3 +61,30 @@ func (s *ServiceTestSuite) Test_CreateIDCardOpenAccountUsecase() {
 	s.Equal(expected, actual)
 	s.NoError(err)
 }
+
+func (s *ServiceTestSuite) Test_VerifyEmailAccount1() {
+	input := "aa@aa.aaa"
+	expected := true
+
+		actual := s.uc.VerifyEmailFormat(input)
+		s.Equal(expected, actual)
+	
+}
+
+func (s *ServiceTestSuite) Test_VerifyEmailAccount2() {
+	input := "aa@aaaaa"
+	expected := true
+
+		actual := s.uc.VerifyEmailFormat(input)
+		s.Equal(expected, actual)
+	
+}
+
+func (s *ServiceTestSuite) Test_VerifyEmailAccount3() {
+	input := "aaaa.aaa"
+	expected := false
+
+		actual := s.uc.VerifyEmailFormat(input)
+		s.Equal(expected, actual)
+	
+}
