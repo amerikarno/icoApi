@@ -1,13 +1,16 @@
 package main
 
 import (
+	"crypto/tls"
 	"log"
+	"net/http"
 
 	"github.com/amerikarno/icoApi/external"
 	"github.com/amerikarno/icoApi/handlers"
 	"github.com/amerikarno/icoApi/repository"
 	"github.com/amerikarno/icoApi/usecases"
 	"github.com/labstack/echo/v4"
+	// "golang.org/x/crypto/acme/autocert"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -34,7 +37,17 @@ func main() {
 	e.GET("api/v1/idcard/:idcard", handler.GetIDcard())
 	e.POST("api/v1/idcard", handler.PostIDcard())
 	e.POST("api/v1/personalInformation", handler.PostPersonalInformations())
-	e.Logger.Fatal(e.Start(":1323"))
+
+	server := http.Server{
+		Addr: ":1323",
+		Handler: e,
+		TLSConfig: &tls.Config{
+			InsecureSkipVerify: true,
+		},
+	}
+
+	if err := server.ListenAndServeTLS("./cert/myCA.pem", "./cert/myCA.crt"); err != nil {log.Fatal(err)}
+	// e.Logger.Fatal(e.StartTLS(":1323", "./cert/myCA.pem", "./cert/myCA.crt" ))
 }
 
 func initOpenAccountsDB() *gorm.DB {
