@@ -59,6 +59,15 @@ func (u *OpenAccountUsecases) VerifyIDCardNumber(idcard string) bool {
 	return false
 }
 
+func (u *OpenAccountUsecases) CheckedEmailUsecase(email string) bool {
+	customer := u.oaRepository.CheckReisteredEmail(email)
+	return len(customer.AccountID) != 0
+}
+func (u *OpenAccountUsecases) CheckedMobileUsecase(mobileno string) bool {
+	customer := u.oaRepository.CheckReisteredMobileNo(mobileno)
+	return len(customer.AccountID) != 0
+}
+
 func (u *OpenAccountUsecases) CreateCustomerInformationUsecase(idcard models.CustomerInformations) (accountID string, err error) {
 	accountID = u.external.GenUuid()
 	idcard.AccountID = accountID

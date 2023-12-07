@@ -34,6 +34,34 @@ func (m *MockIOpenAccountsRepository) EXPECT() *MockIOpenAccountsRepositoryMockR
 	return m.recorder
 }
 
+// CheckReisteredEmail mocks base method.
+func (m *MockIOpenAccountsRepository) CheckReisteredEmail(email string) models.CustomerInformations {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CheckReisteredEmail", email)
+	ret0, _ := ret[0].(models.CustomerInformations)
+	return ret0
+}
+
+// CheckReisteredEmail indicates an expected call of CheckReisteredEmail.
+func (mr *MockIOpenAccountsRepositoryMockRecorder) CheckReisteredEmail(email interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CheckReisteredEmail", reflect.TypeOf((*MockIOpenAccountsRepository)(nil).CheckReisteredEmail), email)
+}
+
+// CheckReisteredMobileNo mocks base method.
+func (m *MockIOpenAccountsRepository) CheckReisteredMobileNo(mobileno string) models.CustomerInformations {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CheckReisteredMobileNo", mobileno)
+	ret0, _ := ret[0].(models.CustomerInformations)
+	return ret0
+}
+
+// CheckReisteredMobileNo indicates an expected call of CheckReisteredMobileNo.
+func (mr *MockIOpenAccountsRepositoryMockRecorder) CheckReisteredMobileNo(mobileno interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CheckReisteredMobileNo", reflect.TypeOf((*MockIOpenAccountsRepository)(nil).CheckReisteredMobileNo), mobileno)
+}
+
 // CreateCustomerInformation mocks base method.
 func (m *MockIOpenAccountsRepository) CreateCustomerInformation(columns models.CustomerInformations) error {
 	m.ctrl.T.Helper()

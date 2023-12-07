@@ -4,22 +4,22 @@ import "time"
 
 type VerifyEmailMobileResponse struct {
 	IsRegistedEmail         bool   `json:"isRegisteredEmail"`
-	IsInvalidEmailFormat    bool   `json:"isInvalidEmailFormat"`
+	// IsInvalidEmailFormat    bool   `json:"isInvalidEmailFormat"`
 	RegistedEmail           string `json:"registeredEmail"`
 	IsRegistedMobileno      bool   `json:"isRegisteredMobileNo"`
-	IsInvalidMobileNoFormat bool   `json:"isInvalidMobileNoFormat"`
+	// IsInvalidMobileNoFormat bool   `json:"isInvalidMobileNoFormat"`
 	RegistedMobileNo        string `json:"registeredMobileNo"`
 	RegistedPage            string `json:"registeredPage"`
 }
 type VerifyEmailResponse struct {
 	IsRegistedEmail      bool   `json:"isRegisteredEmail"`
-	IsInvalidEmailFormat bool   `json:"isInvalidEmailFormat"`
+	// IsInvalidEmailFormat bool   `json:"isInvalidEmailFormat"`
 	RegistedEmail        string `json:"registeredEmail"`
 	RegistedPage         string `json:"registeredPage"`
 }
 type VerifyMobileNoResponse struct {
 	IsRegistedMobileno      bool   `json:"isRegisteredMobileNo"`
-	IsInvalidMobileNoFormat bool   `json:"isInvalidMobileNoFormat"`
+	// IsInvalidMobileNoFormat bool   `json:"isInvalidMobileNoFormat"`
 	RegistedMobileNo        string `json:"registeredMobileNo"`
 	RegistedPage            string `json:"registeredPage"`
 }
