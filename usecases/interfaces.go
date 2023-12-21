@@ -10,6 +10,7 @@ type IOpenAccountsRepository interface {
 	UpdatePersonalInformation(personalInfos models.PersonalInformations, cid string) error
 	CheckReisteredEmail(email string) models.CustomerInformations
 	CheckReisteredMobileNo(mobileno string) models.CustomerInformations
+	CheckReisteredCitizenID(citizenID string) models.CustomerInformations
 }
 
 type IExternal interface {

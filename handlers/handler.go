@@ -23,21 +23,19 @@ func NewHandler(usecases *usecases.OpenAccountUsecases) *Handler {
 func (h *Handler) VerifyMobileNoHandler() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var response models.VerifyMobileNoResponse
-		var pages string
 		response.RegistedMobileNo = strings.ToLower(c.Param("mobileno"))
+		response.IsRegistedMobileno = h.usecases.CheckedMobileUsecase(response.RegistedMobileNo)
 
-		isRegistered :=  h.usecases.CheckedMobileUsecase(response.RegistedMobileNo)
+		return c.JSON(http.StatusOK, response)
+	}
+}
 
-		if isRegistered {
-			pages = "3"
-			response.IsRegistedMobileno = true
-			response.RegistedPage = pages
-		} else {
-			response.IsRegistedMobileno = false
-			response.RegistedPage = pages
-		}
+func (h *Handler) VerifyIDCardHandler() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		var response models.VerifyIDCardResponse
+		response.RegistedIDCard = strings.ToLower(c.Param("idcard"))
+		response.IsRegistedIDCard = h.usecases.CheckedCitizenIDUsecase(response.RegistedIDCard)
 
-		fmt.Printf("response: %+v\n", response)
 		return c.JSON(http.StatusOK, response)
 	}
 }
@@ -45,21 +43,9 @@ func (h *Handler) VerifyMobileNoHandler() echo.HandlerFunc {
 func (h *Handler) VerifyEmailHandler() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var response models.VerifyEmailResponse
-		var pages string
 		response.RegistedEmail = strings.ToLower(c.Param("email"))
+		response.IsRegistedEmail = h.usecases.CheckedEmailUsecase(response.RegistedEmail)
 
-		isRegistered := h.usecases.CheckedEmailUsecase(response.RegistedEmail)
-
-		if isRegistered {
-			pages = "3"
-			response.IsRegistedEmail = true
-			response.RegistedPage = pages
-		} else {
-			response.IsRegistedEmail = false
-			response.RegistedPage = pages
-		}
-
-		fmt.Printf("response: %+v\n", response)
 		return c.JSON(http.StatusOK, response)
 	}
 }

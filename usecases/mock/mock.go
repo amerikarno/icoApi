@@ -34,6 +34,20 @@ func (m *MockIOpenAccountsRepository) EXPECT() *MockIOpenAccountsRepositoryMockR
 	return m.recorder
 }
 
+// CheckReisteredCitizenID mocks base method.
+func (m *MockIOpenAccountsRepository) CheckReisteredCitizenID(citizenID string) models.CustomerInformations {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CheckReisteredCitizenID", citizenID)
+	ret0, _ := ret[0].(models.CustomerInformations)
+	return ret0
+}
+
+// CheckReisteredCitizenID indicates an expected call of CheckReisteredCitizenID.
+func (mr *MockIOpenAccountsRepositoryMockRecorder) CheckReisteredCitizenID(citizenID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CheckReisteredCitizenID", reflect.TypeOf((*MockIOpenAccountsRepository)(nil).CheckReisteredCitizenID), citizenID)
+}
+
 // CheckReisteredEmail mocks base method.
 func (m *MockIOpenAccountsRepository) CheckReisteredEmail(email string) models.CustomerInformations {
 	m.ctrl.T.Helper()

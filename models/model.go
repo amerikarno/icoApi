@@ -3,25 +3,28 @@ package models
 import "time"
 
 type VerifyEmailMobileResponse struct {
-	IsRegistedEmail         bool   `json:"isRegisteredEmail"`
+	IsRegistedEmail bool `json:"isRegisteredEmail"`
 	// IsInvalidEmailFormat    bool   `json:"isInvalidEmailFormat"`
-	RegistedEmail           string `json:"registeredEmail"`
-	IsRegistedMobileno      bool   `json:"isRegisteredMobileNo"`
+	RegistedEmail      string `json:"registeredEmail"`
+	IsRegistedMobileno bool   `json:"isRegisteredMobileNo"`
 	// IsInvalidMobileNoFormat bool   `json:"isInvalidMobileNoFormat"`
-	RegistedMobileNo        string `json:"registeredMobileNo"`
-	RegistedPage            string `json:"registeredPage"`
+	RegistedMobileNo string `json:"registeredMobileNo"`
+	RegistedPage     string `json:"registeredPage"`
 }
 type VerifyEmailResponse struct {
-	IsRegistedEmail      bool   `json:"isRegisteredEmail"`
-	// IsInvalidEmailFormat bool   `json:"isInvalidEmailFormat"`
-	RegistedEmail        string `json:"registeredEmail"`
-	RegistedPage         string `json:"registeredPage"`
+	IsRegistedEmail bool   `json:"isRegisteredEmail"`
+	RegistedEmail   string `json:"registeredEmail"`
+	Id              string `json:"customerID"`
 }
 type VerifyMobileNoResponse struct {
-	IsRegistedMobileno      bool   `json:"isRegisteredMobileNo"`
-	// IsInvalidMobileNoFormat bool   `json:"isInvalidMobileNoFormat"`
-	RegistedMobileNo        string `json:"registeredMobileNo"`
-	RegistedPage            string `json:"registeredPage"`
+	IsRegistedMobileno bool   `json:"isRegisteredMobileNo"`
+	RegistedMobileNo   string `json:"registeredMobileNo"`
+	Id                 string `json:"customerID"`
+}
+type VerifyIDCardResponse struct {
+	IsRegistedIDCard bool   `json:"isRegisteredIDCard"`
+	RegistedIDCard   string `json:"registeredIDCard"`
+	Id               string `json:"customerID"`
 }
 type ProvinceList struct {
 	Id          int           `json:"id"`
@@ -192,8 +195,8 @@ type CustomerBookbanks struct {
 func (CustomerBookbanks) TableName() string { return "customer_bookbanks" }
 
 type PersonalInformations struct {
-	CustomerInformation   CustomerInformations      `json:"customerInformation"`
-	CustomerAddresseLists []CustomerAddressResponse `json:"customerAddresseLists"`
+	CustomerInformation   CustomerInformations       `json:"customerInformation"`
+	CustomerAddresseLists []CustomerAddressResponse  `json:"customerAddresseLists"`
 	CustomerBookbankLists []CustomerBookbankResponse `json:"customerBookbankLits"`
 }
 

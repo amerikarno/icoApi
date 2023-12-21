@@ -67,6 +67,10 @@ func (u *OpenAccountUsecases) CheckedMobileUsecase(mobileno string) bool {
 	customer := u.oaRepository.CheckReisteredMobileNo(mobileno)
 	return len(customer.AccountID) != 0
 }
+func (u *OpenAccountUsecases) CheckedCitizenIDUsecase(citizenID string) bool {
+	customer := u.oaRepository.CheckReisteredCitizenID(citizenID)
+	return len(customer.AccountID) != 0
+}
 
 func (u *OpenAccountUsecases) CreateCustomerInformationUsecase(idcard models.CustomerInformations) (accountID string, err error) {
 	accountID = u.external.GenUuid()

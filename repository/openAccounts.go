@@ -42,6 +42,13 @@ func (e *OpenAccountsRepository) CheckReisteredMobileNo(mobileno string) models.
 	}
 	return cust
 }
+func (e *OpenAccountsRepository) CheckReisteredCitizenID(mobileno string) models.CustomerInformations {
+	cust := models.CustomerInformations{}
+	if err := e.db.Debug().Where("mobile_no=?", mobileno).First(&cust).Error; err != nil && err != gorm.ErrRecordNotFound {
+		log.Printf("error while checking registered mobile number: %v", err)
+	}
+	return cust
+}
 
 func (e *OpenAccountsRepository) UpdatePersonalInformation(personalInfos models.PersonalInformations, cid string) error {
 	tx := e.db.Begin()
