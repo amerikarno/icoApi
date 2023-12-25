@@ -8,6 +8,7 @@ import (
 	"github.com/amerikarno/icoApi/repository"
 	"github.com/amerikarno/icoApi/usecases"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 
 	// "golang.org/x/crypto/acme/autocert"
 	"gorm.io/driver/mysql"
@@ -24,6 +25,11 @@ func main() {
 
 	external := external.NewExternalUuid()
 	e := echo.New()
+
+	e.Use(middleware.KeyAuth(func(key string, c echo.Context) (bool, error) {
+		return key == "fda-authen-key", nil
+	}))
+
 	usecase := usecases.NewOpenAccountUsecases(openAccountsRepo, external)
 	handler := handlers.NewHandler(usecase)
 	e.GET("verify/email/:email/mobile/:mobileno", handler.VerifyEmailMobileHandler())
