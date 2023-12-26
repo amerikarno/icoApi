@@ -8,7 +8,6 @@ import (
 	"github.com/amerikarno/icoApi/repository"
 	"github.com/amerikarno/icoApi/usecases"
 	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
 
 	// "golang.org/x/crypto/acme/autocert"
 	"gorm.io/driver/mysql"
@@ -26,9 +25,9 @@ func main() {
 	external := external.NewExternalUuid()
 	e := echo.New()
 
-	e.Use(middleware.KeyAuth(func(key string, c echo.Context) (bool, error) {
-		return key == "fda-authen-key", nil
-	}))
+	// e.Use(middleware.KeyAuth(func(key string, c echo.Context) (bool, error) {
+	// 	return key == "fda-authen-key", nil
+	// }))
 
 	usecase := usecases.NewOpenAccountUsecases(openAccountsRepo, external)
 	handler := handlers.NewHandler(usecase)
@@ -43,6 +42,7 @@ func main() {
 	e.GET("api/v1/idcard/:idcard", handler.GetIDcard())
 	e.POST("api/v1/idcard", handler.PostIDcard())
 	e.POST("api/v1/personalInformation", handler.PostPersonalInformations())
+	e.POST("healthcheck", handler.HealthCheck())
 
 	// server := http.Server{
 	// 	Addr: ":1323",
@@ -54,11 +54,12 @@ func main() {
 
 	// if err := server.ListenAndServeTLS("./cert/myCA.pem", "./cert/myCA.crt"); err != nil {log.Fatal(err)}
 	// e.Logger.Fatal(e.StartTLS(":1323", "./cert/myCA.pem", "./cert/myCA.crt" ))
-	e.Logger.Fatal(e.Start(":1323"))
+	e.Logger.Fatal(e.Start(":8080"))
 }
 
 func initOpenAccountsDB() *gorm.DB {
-	dsn := "root:icodb@Liverp00l!!@tcp(34.136.109.173:3306)/open_accounts?charset=utf8mb4&parseTime=True&loc=Local"
+	// dsn := "root:password@tcp(127.0.0.1:3306)/open_accounts?charset=utf8mb4&parseTime=True&loc=Local" // for localhost
+	dsn := "root:icodb@Liverp00l!!@tcp(34.136.109.173:3306)/open_accounts?charset=utf8mb4&parseTime=True&loc=Local" // for gcp
 	mysqldb, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal(err)

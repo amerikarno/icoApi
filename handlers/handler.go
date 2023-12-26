@@ -162,3 +162,8 @@ func (h *Handler) PostPersonalInformations() echo.HandlerFunc {
 		return c.JSON(http.StatusOK, id)
 	}
 }
+func (h *Handler) HealthCheck() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		return c.JSON(http.StatusOK, "Service Available")
+	}
+}
