@@ -219,3 +219,11 @@ type CustomerOccupationRequest struct {
 	PositionName      string `json:"positionName" gorm:"column:position_name"`
 	SalaryRange       string `json:"salaryRange" gorm:"column:salary_range"`
 }
+
+type InvestmentRequest struct {
+	AccountID           string `json:"id" gorm:"column:customer_id"`
+	ShortTermInvestment bool   `json:"shortTermInvestment" gorm:"column:is_short_term"`
+	LongTermInvestment  bool   `json:"longTermInvestment" gorm:"column:is_long_term"`
+	TaxesInvestment     bool   `json:"taxesInvestment" gorm:"column:is_taxes"`
+	RetireInvestment    bool   `json:"retireInvestment" gorm:"column:is_retirement"`
+}
