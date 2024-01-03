@@ -134,6 +134,9 @@ func (h *Handler) PostIDcard() echo.HandlerFunc {
 
 		postData.Pages = true
 		postData.Create = time.Now().Local()
+		tmp := strings.Split(postData.MarriageStatus, ".")
+		fmt.Printf("temp: %v\n", tmp)
+		postData.MarriageStatus = tmp[1]
 
 		fmt.Printf("post data: %+v\n", postData)
 		id, err := h.usecases.CreateCustomerInformationUsecase(postData)
