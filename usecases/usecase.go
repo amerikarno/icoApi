@@ -200,3 +200,13 @@ func (u *OpenAccountUsecases) UpdateCustomerPersonalInformationUsecase(personalI
 	fmt.Printf("accountID: %v\npersonal info: %v\n", accountID, pInfo)
 	return
 }
+
+func (u *OpenAccountUsecases) CreateCustomerExamsUsecase(customerExams models.CustomerExamsRequest) (accountID string, err error) {
+	accountID = customerExams.AccountID
+	customerExams.CreateAt = time.Now().Local()
+	if err = u.oaRepository.CreateCustomerExams(customerExams); err != nil {
+		log.Println(err.Error())
+		return
+	}
+	return
+}

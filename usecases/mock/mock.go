@@ -76,6 +76,20 @@ func (mr *MockIOpenAccountsRepositoryMockRecorder) CheckReisteredMobileNo(mobile
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CheckReisteredMobileNo", reflect.TypeOf((*MockIOpenAccountsRepository)(nil).CheckReisteredMobileNo), mobileno)
 }
 
+// CreateCustomerExams mocks base method.
+func (m *MockIOpenAccountsRepository) CreateCustomerExams(customerExams models.CustomerExamsRequest) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateCustomerExams", customerExams)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateCustomerExams indicates an expected call of CreateCustomerExams.
+func (mr *MockIOpenAccountsRepositoryMockRecorder) CreateCustomerExams(customerExams interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateCustomerExams", reflect.TypeOf((*MockIOpenAccountsRepository)(nil).CreateCustomerExams), customerExams)
+}
+
 // CreateCustomerInformation mocks base method.
 func (m *MockIOpenAccountsRepository) CreateCustomerInformation(columns models.CustomerInformations) error {
 	m.ctrl.T.Helper()

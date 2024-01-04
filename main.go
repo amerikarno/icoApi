@@ -43,6 +43,7 @@ func main() {
 	e.GET("api/v1/idcard/:idcard", handler.GetIDcard())
 	e.POST("api/v1/idcard", handler.PostIDcard())
 	e.POST("api/v1/personalInformation", handler.PostPersonalInformations())
+	e.POST("api/v1/customerExams", handler.PostCustomerExamsHandler())
 	e.POST("healthcheck", handler.HealthCheck())
 
 	// server := http.Server{

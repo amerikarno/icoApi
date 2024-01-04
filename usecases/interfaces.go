@@ -11,6 +11,7 @@ type IOpenAccountsRepository interface {
 	CheckReisteredEmail(email string) models.CustomerInformations
 	CheckReisteredMobileNo(mobileno string) models.CustomerInformations
 	CheckReisteredCitizenID(citizenID string) models.CustomerInformations
+	CreateCustomerExams(customerExams models.CustomerExamsRequest) error
 }
 
 type IExternal interface {

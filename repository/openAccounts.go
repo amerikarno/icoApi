@@ -76,3 +76,16 @@ func (e *OpenAccountsRepository) UpdatePersonalInformation(personalInfos models.
 
 	return nil
 }
+
+func (e *OpenAccountsRepository) CreateCustomerExams(customerExams models.CustomerExamsRequest) error {
+	tx := e.db.Begin()
+
+	if err := tx.Create(customerExams).Error; err != nil {
+		log.Printf("customer exams update error: %v", err)
+		return err
+	}
+
+	tx.Commit()
+
+	return nil
+}
