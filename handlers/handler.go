@@ -189,3 +189,41 @@ func (h *Handler) PostCustomerExamsHandler() echo.HandlerFunc {
 		return c.JSON(http.StatusOK, id)
 	}
 }
+
+func (h *Handler) PostCreateCustomerConfirmsHandler() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		var postData models.CustomerConfirmsRequest
+		if err := c.Bind(&postData); err != nil {
+			fmt.Printf("error: %v\n", err)
+			return c.JSON(http.StatusBadRequest, "")
+		}
+
+		fmt.Printf("post data: %+v\n", postData)
+		id, err := h.usecases.CreateCustomerConfirmsUsecase(postData)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, err)
+		}
+		fmt.Printf("account id: %v\n", id)
+		return c.JSON(http.StatusOK, id)
+	}
+}
+
+func (h *Handler) GetUpdateCustomerConfirmsHandler() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		// var postData models.CustomerConfirmsRequest
+		// if err := c.Bind(&postData); err != nil {
+		// 	fmt.Printf("error: %v\n", err)
+		// 	return c.JSON(http.StatusBadRequest, "")
+		// }
+
+		// fmt.Printf("post data: %+v\n", postData)
+		tokenID := c.Param("tokenID")
+		fmt.Printf("token id: %+v\n", tokenID)
+		id, err := h.usecases.UpdateConfirmsUsecase(tokenID)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, err)
+		}
+		fmt.Printf("account id: %v\n", id)
+		return c.JSON(http.StatusOK, id)
+	}
+}

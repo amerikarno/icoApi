@@ -76,6 +76,20 @@ func (mr *MockIOpenAccountsRepositoryMockRecorder) CheckReisteredMobileNo(mobile
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CheckReisteredMobileNo", reflect.TypeOf((*MockIOpenAccountsRepository)(nil).CheckReisteredMobileNo), mobileno)
 }
 
+// CreateCustomerConfirms mocks base method.
+func (m *MockIOpenAccountsRepository) CreateCustomerConfirms(customerConfirms models.CustomerConfirmsRequest) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateCustomerConfirms", customerConfirms)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateCustomerConfirms indicates an expected call of CreateCustomerConfirms.
+func (mr *MockIOpenAccountsRepositoryMockRecorder) CreateCustomerConfirms(customerConfirms interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateCustomerConfirms", reflect.TypeOf((*MockIOpenAccountsRepository)(nil).CreateCustomerConfirms), customerConfirms)
+}
+
 // CreateCustomerExams mocks base method.
 func (m *MockIOpenAccountsRepository) CreateCustomerExams(customerExams models.CustomerExamsRequest) error {
 	m.ctrl.T.Helper()
@@ -102,6 +116,34 @@ func (m *MockIOpenAccountsRepository) CreateCustomerInformation(columns models.C
 func (mr *MockIOpenAccountsRepositoryMockRecorder) CreateCustomerInformation(columns interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateCustomerInformation", reflect.TypeOf((*MockIOpenAccountsRepository)(nil).CreateCustomerInformation), columns)
+}
+
+// QueryCustomerConfirmsExpireDT mocks base method.
+func (m *MockIOpenAccountsRepository) QueryCustomerConfirmsExpireDT(tokenID string) models.CustomerConfirmsRequest {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "QueryCustomerConfirmsExpireDT", tokenID)
+	ret0, _ := ret[0].(models.CustomerConfirmsRequest)
+	return ret0
+}
+
+// QueryCustomerConfirmsExpireDT indicates an expected call of QueryCustomerConfirmsExpireDT.
+func (mr *MockIOpenAccountsRepositoryMockRecorder) QueryCustomerConfirmsExpireDT(tokenID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryCustomerConfirmsExpireDT", reflect.TypeOf((*MockIOpenAccountsRepository)(nil).QueryCustomerConfirmsExpireDT), tokenID)
+}
+
+// UpdateCustomerConfirms mocks base method.
+func (m *MockIOpenAccountsRepository) UpdateCustomerConfirms(customerConfirms models.CustomerConfirmsRequest) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateCustomerConfirms", customerConfirms)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateCustomerConfirms indicates an expected call of UpdateCustomerConfirms.
+func (mr *MockIOpenAccountsRepositoryMockRecorder) UpdateCustomerConfirms(customerConfirms interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateCustomerConfirms", reflect.TypeOf((*MockIOpenAccountsRepository)(nil).UpdateCustomerConfirms), customerConfirms)
 }
 
 // UpdatePersonalInformation mocks base method.

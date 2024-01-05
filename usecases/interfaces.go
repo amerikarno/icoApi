@@ -12,6 +12,9 @@ type IOpenAccountsRepository interface {
 	CheckReisteredMobileNo(mobileno string) models.CustomerInformations
 	CheckReisteredCitizenID(citizenID string) models.CustomerInformations
 	CreateCustomerExams(customerExams models.CustomerExamsRequest) error
+	CreateCustomerConfirms(customerConfirms models.CustomerConfirmsRequest) error
+	UpdateCustomerConfirms(customerConfirms models.CustomerConfirmsRequest) error
+	QueryCustomerConfirmsExpireDT(tokenID string) models.CustomerConfirmsRequest
 }
 
 type IExternal interface {

@@ -44,6 +44,8 @@ func main() {
 	e.POST("api/v1/idcard", handler.PostIDcard())
 	e.POST("api/v1/personalInformation", handler.PostPersonalInformations())
 	e.POST("api/v1/customerExams", handler.PostCustomerExamsHandler())
+	e.POST("api/v1/createCustomerConfirms", handler.PostCreateCustomerConfirmsHandler())
+	e.GET("api/v1/updateCustomerConfirms/:tokenID", handler.GetUpdateCustomerConfirmsHandler())
 	e.POST("healthcheck", handler.HealthCheck())
 
 	// server := http.Server{

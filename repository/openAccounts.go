@@ -89,3 +89,51 @@ func (e *OpenAccountsRepository) CreateCustomerExams(customerExams models.Custom
 
 	return nil
 }
+
+func (e *OpenAccountsRepository) CreateCustomerConfirms(customerConfirms models.CustomerConfirmsRequest) error {
+	columns := []string{
+		"id",
+		"token",
+		"is_confirm",
+		"confirm_types",
+		"create_at",
+		"expire_at",
+	}
+	tx := e.db.Begin()
+
+	if err := tx.Select(columns).Create(customerConfirms).Error; err != nil {
+		log.Printf("create customer confirm error: %v", err)
+		return err
+	}
+
+	tx.Commit()
+
+	return nil
+}
+
+func (e *OpenAccountsRepository) UpdateCustomerConfirms(customerConfirms models.CustomerConfirmsRequest) error {
+	columns := []string{
+		"is_confirm",
+		"confirm_at",
+	}
+	tx := e.db.Begin()
+
+	if err := tx.Select(columns).Updates(customerConfirms).Where(customerConfirms.TokenID).Error; err != nil {
+		log.Printf("create customer confirm error: %v", err)
+		return err
+	}
+
+	tx.Commit()
+
+	return nil
+}
+
+func (e *OpenAccountsRepository) QueryCustomerConfirmsExpireDT(tokenID string) models.CustomerConfirmsRequest {
+	custConfirmDetail := models.CustomerConfirmsRequest{}
+
+	if err := e.db.Debug().Where(tokenID).First(&custConfirmDetail).Error; err != nil && err != gorm.ErrRecordNotFound {
+		log.Printf("error while checking customer token %s, error: %v", tokenID, err)
+	}
+
+	return custConfirmDetail
+}

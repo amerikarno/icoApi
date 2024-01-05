@@ -210,3 +210,40 @@ func (u *OpenAccountUsecases) CreateCustomerExamsUsecase(customerExams models.Cu
 	}
 	return
 }
+
+func (u *OpenAccountUsecases) CreateCustomerConfirmsUsecase(customerConfirms models.CustomerConfirmsRequest) (tokenID string, err error) {
+	now := time.Now().Local()
+	customerConfirms.CreateAt = now
+	customerConfirms.ExpireAt = now.Add(time.Hour * 24)
+	customerConfirms.TokenID = u.external.GenUuid()
+	customerConfirms.IsConfirm = false
+	tokenID = customerConfirms.TokenID
+
+	if err = u.oaRepository.CreateCustomerConfirms(customerConfirms); err != nil {
+		log.Println(err.Error())
+		return
+	}
+
+	return
+}
+
+func (u *OpenAccountUsecases) UpdateConfirmsUsecase(token string) (tokenID string, err error) {
+	now := time.Now().Local()
+	query := u.oaRepository.QueryCustomerConfirmsExpireDT(token)
+
+	if query.ExpireAt.Before(now) {
+		err = fmt.Errorf("expired: %v, now: %v", query.ExpireAt, now)
+		log.Println(err.Error())
+		return
+	}
+	customerConfirms := models.CustomerConfirmsRequest{}
+	customerConfirms.ConfirmAt = now
+	customerConfirms.IsConfirm = true
+
+	if err = u.oaRepository.UpdateCustomerConfirms(customerConfirms); err != nil {
+		log.Println(err.Error())
+		return
+	}
+
+	return token, nil
+}
