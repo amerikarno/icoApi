@@ -69,7 +69,7 @@ func main() {
 		<p class="textBody">กรุณายืนยันอีเมลของท่าน</p>
 		<p class="textBody">ตามที่ท่านได้สมัครเปิดบัญชีกับ บล.ฟินันเซีย ดิจิทัล แอสเซท จำกัด</p>
 		<p class="textBody">กรุณากดปุ่มด้านล่างเพื่อยืนยันอีเมล</p>
-		<p><a href="http://localhost:1323/api/v1/updateCustomerConfirms/%s" header={Authorization: Bearer %s class="button"}>กดยืนยันอีเมล</a></p>
+		<p><a href="http://localhost:1323/api/v1/updateCustomerConfirms/%s" header={Authorization: Bearer %s} class="button">กดยืนยันอีเมล</a></p>
 
 	</body>
 	</html>
