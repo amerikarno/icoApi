@@ -131,9 +131,50 @@ func (e *OpenAccountsRepository) UpdateCustomerConfirms(customerConfirms models.
 func (e *OpenAccountsRepository) QueryCustomerConfirmsExpireDT(tokenID string) models.CustomerConfirmsRequest {
 	custConfirmDetail := models.CustomerConfirmsRequest{}
 
-	if err := e.db.Debug().Where(tokenID).First(&custConfirmDetail).Error; err != nil && err != gorm.ErrRecordNotFound {
+	if err := e.db.Debug().Where("token_id = ?", tokenID).First(&custConfirmDetail).Error; err != nil && err != gorm.ErrRecordNotFound {
 		log.Printf("error while checking customer token %s, error: %v", tokenID, err)
 	}
 
 	return custConfirmDetail
+}
+
+func (e *OpenAccountsRepository) GetAllRiskCountry() (riskCountries []models.RiskCountryModel) {
+
+	if err := e.db.Debug().Find(&riskCountries).Error; err != nil && err != gorm.ErrRecordNotFound {
+		log.Printf("error while all risk countries, error: %v", err)
+	}
+
+	return
+}
+
+func (e *OpenAccountsRepository) GetAllRiskOccupation() (riskOccupations []models.RiskOccupationModel) {
+
+	if err := e.db.Debug().Find(&riskOccupations).Error; err != nil && err != gorm.ErrRecordNotFound {
+		log.Printf("error while all risk occupation, error: %v", err)
+	}
+
+	return
+}
+func (e *OpenAccountsRepository) GetRiskCountryBy(country string) (riskCountry models.RiskCountryModel) {
+
+	if err := e.db.Debug().Where("country_name = ?", country).First(&riskCountry).Error; err != nil && err != gorm.ErrRecordNotFound {
+		log.Printf("error while risk countries by %s, error: %v", country, err)
+	}
+
+	return
+}
+
+func (e *OpenAccountsRepository) GetRiskOccupation(occupation string, business string) (riskOccupation models.RiskOccupationModel) {
+	var condition string
+	if len(business) > 0 {
+		condition = "business_type = ?"
+	} else {
+		condition = "business_type is null"
+	}
+
+	if err := e.db.Debug().Where("occupation_name = ?", occupation).Where(condition, business).First(&riskOccupation).Error; err != nil && err != gorm.ErrRecordNotFound {
+		log.Printf("error while risk occupation by %s|%s, error: %v", occupation, business, err)
+	}
+
+	return
 }
