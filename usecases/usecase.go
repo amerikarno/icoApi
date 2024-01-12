@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/amerikarno/icoApi/models"
+	"gopkg.in/gomail.v2"
 )
 
 type OpenAccountUsecases struct {
@@ -246,4 +247,44 @@ func (u *OpenAccountUsecases) UpdateConfirmsUsecase(token string) (tokenID strin
 	}
 
 	return token, nil
+}
+
+func (u *OpenAccountUsecases) SendConfirmationEmail() {
+	const (
+		// Replace these values with your email server details
+		smtpServer     = "smtp.gmail.com"
+		senderEmail    = "karnake@gmail.com"
+		senderPassword = "GG@23Apr1978"
+		smtpPort       = 587
+		// Replace the recipient email with the actual recipient's email address
+		recipientEmail = "karnake.r@finansiada.com"
+		// Email content in HTML format with a confirmation button
+		subject = `แจ้งยืนยัน "อีเมล" การเปิดบัญชีกับ FINANSIA DIGITAL ASSET`
+	)
+	uid := u.external.GenUuid()
+	token := "fda-authen-key"
+	htmlBody := u.oaRepository.GetHTMLTemplate(recipientEmail, uid, token)
+
+	// Create a new message
+	m := gomail.NewMessage()
+
+	// Set sender and recipient
+	m.SetHeader("From", senderEmail)
+	m.SetHeader("To", recipientEmail)
+
+	// Set subject
+	m.SetHeader("Subject", subject)
+
+	// Set HTML body with custom Authorization header
+	m.SetBody("text/html", htmlBody)
+
+	// Create a new mailer
+	d := gomail.NewDialer(smtpServer, smtpPort, senderEmail, senderPassword)
+
+	// Send the email
+	if err := d.DialAndSend(m); err != nil {
+		panic(err)
+	}
+
+	println("Email sent successfully!")
 }

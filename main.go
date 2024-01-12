@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 
+	"github.com/amerikarno/icoApi/config"
 	"github.com/amerikarno/icoApi/external"
 	"github.com/amerikarno/icoApi/handlers"
 	"github.com/amerikarno/icoApi/repository"
@@ -16,6 +17,10 @@ import (
 )
 
 func main() {
+	smtpConfig, err := config.LoadConfig()
+	if err != nil {
+		log.Fatalf("Fail to loading config %v", err)
+	}
 	filename := "json/api_province_with_amphure_tambon.json"
 	repo := repository.NewPATRepository(filename)
 	provinces, amphures, tambons, zipcode := repo.LoadPAT().GetProvinceAmphureTambonLists()
@@ -31,7 +36,7 @@ func main() {
 	}))
 
 	usecase := usecases.NewOpenAccountUsecases(openAccountsRepo, external)
-	handler := handlers.NewHandler(usecase)
+	handler := handlers.NewHandler(usecase, smtpConfig)
 	e.GET("verify/email/:email/mobile/:mobileno", handler.VerifyEmailMobileHandler())
 	e.GET("verify/email/:email", handler.VerifyEmailHandler())
 	e.GET("verify/mobile/:mobileno", handler.VerifyMobileNoHandler())

@@ -15,6 +15,7 @@ type IOpenAccountsRepository interface {
 	CreateCustomerConfirms(customerConfirms models.CustomerConfirmsRequest) error
 	UpdateCustomerConfirms(customerConfirms models.CustomerConfirmsRequest) error
 	QueryCustomerConfirmsExpireDT(tokenID string) models.CustomerConfirmsRequest
+	GetHTMLTemplate(thaiName, uid, token string) (htmlBody string)
 }
 
 type IExternal interface {

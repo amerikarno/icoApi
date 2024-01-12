@@ -1,7 +1,12 @@
 package repository
 
 import (
+	"html/template"
 	"log"
+	"os"
+	"strconv"
+	"strings"
+	"time"
 
 	"github.com/amerikarno/icoApi/models"
 	"gorm.io/gorm"
@@ -177,4 +182,115 @@ func (e *OpenAccountsRepository) GetRiskOccupation(occupation string, business s
 	}
 
 	return
+}
+
+func (e *OpenAccountsRepository) GetHTMLTemplate(thaiName, uid, token string) (htmlBody string) {
+	thaiDate := convertDateInThai(time.Now().Local())
+	data := models.EmailData{
+		Date:             thaiDate,
+		Name:             thaiName,
+		ConfirmationCode: uid,
+		Token:            token,
+	}
+
+	tmpl, err := template.New(htmlBody).Parse(`
+	<!DOCTYPE html>
+	<html>
+	<head>
+		<title>แจ้งยืนยัน "อีเมล" การเปิดบัญชีกับ FINANSIA DIGITAL ASSET</title>
+		<style>
+		.button {
+			position: absolute;
+			left: 35%%;
+			right: 35%%;
+			background-color: #1c87c9;
+			border: none;
+			border-radius: 10px;
+			color: white;
+			padding: 10px 10px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 20px;
+			margin: 4px 2px;
+			cursor: pointer;
+		  }
+		  .textBegin {
+			color: black;
+			font-size: 12px;
+		  }
+		  .textBody {
+			color: blue;
+			font-weight: 600;
+			text-align: center;
+			font-size: 20px;
+		  }
+		</style>
+	</head>
+	<body>
+		<p class="textBegin">วันที่ {{.Date}}</p>
+		<p class="textBegin">เรียน คุณ{{.Name}}</p>
+		<p class="textBegin">เรื่องแจ้งยืนยัน "อีเมล" การเปิดบัญชีกับ FINANSIA DIGITAL ASSET</p>
+		<p class="textBody">กรุณายืนยันอีเมลของท่าน</p>
+		<p class="textBody">ตามที่ท่านได้สมัครเปิดบัญชีกับ บล.ฟินันเซีย ดิจิทัล แอสเซท จำกัด</p>
+		<p class="textBody">กรุณากดปุ่มด้านล่างเพื่อยืนยันอีเมล</p>
+		<p><a href="http://localhost:1323/api/v1/updateCustomerConfirms/{{.ConfirmationCode}}" header={Authorization: Bearer {{.Token}}} class="button">กดยืนยันอีเมล</a></p>
+
+	</body>
+	</html>
+	`)
+	if err != nil {
+		log.Fatalf("Failed to create email template: %v", err)
+	}
+
+	if err = tmpl.Execute(os.Stdout, data); err != nil {
+		log.Fatalf("Failed to execute template: %v", err)
+	}
+
+	return
+}
+
+func convertDateInThai(d time.Time) (thaiDate string) {
+	var (
+		monthStr string
+		builder  strings.Builder
+	)
+
+	dateStr := strconv.Itoa(d.Day())
+	month := int(d.Month())
+	yearStr := strconv.Itoa(d.Year() + 543)
+
+	switch month {
+	case 1:
+		monthStr = "มกราคม"
+	case 2:
+		monthStr = "กุมภาพันธ์"
+	case 3:
+		monthStr = "มีนาคม"
+	case 4:
+		monthStr = "เมษายน"
+	case 5:
+		monthStr = "พฤษภาคม"
+	case 6:
+		monthStr = "มิถุนายม"
+	case 7:
+		monthStr = "กรกฎาคม"
+	case 8:
+		monthStr = "สิงหาคม"
+	case 9:
+		monthStr = "กันยายน"
+	case 10:
+		monthStr = "ตุลาคม"
+	case 11:
+		monthStr = "พฤษจิกายน"
+	case 12:
+		monthStr = "ธันวาคม"
+	}
+	builder.WriteString(dateStr)
+	builder.WriteString(" ")
+	builder.WriteString(monthStr)
+	builder.WriteString(" ")
+	builder.WriteString(yearStr)
+
+	return builder.String()
 }

@@ -118,6 +118,20 @@ func (mr *MockIOpenAccountsRepositoryMockRecorder) CreateCustomerInformation(col
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateCustomerInformation", reflect.TypeOf((*MockIOpenAccountsRepository)(nil).CreateCustomerInformation), columns)
 }
 
+// GetHTMLTemplate mocks base method.
+func (m *MockIOpenAccountsRepository) GetHTMLTemplate(thaiName, uid, token string) string {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetHTMLTemplate", thaiName, uid, token)
+	ret0, _ := ret[0].(string)
+	return ret0
+}
+
+// GetHTMLTemplate indicates an expected call of GetHTMLTemplate.
+func (mr *MockIOpenAccountsRepositoryMockRecorder) GetHTMLTemplate(thaiName, uid, token interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetHTMLTemplate", reflect.TypeOf((*MockIOpenAccountsRepository)(nil).GetHTMLTemplate), thaiName, uid, token)
+}
+
 // QueryCustomerConfirmsExpireDT mocks base method.
 func (m *MockIOpenAccountsRepository) QueryCustomerConfirmsExpireDT(tokenID string) models.CustomerConfirmsRequest {
 	m.ctrl.T.Helper()

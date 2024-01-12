@@ -13,11 +13,12 @@ import (
 )
 
 type Handler struct {
-	usecases *usecases.OpenAccountUsecases
+	usecases   *usecases.OpenAccountUsecases
+	smtpConfig *models.SMTPConfig
 }
 
-func NewHandler(usecases *usecases.OpenAccountUsecases) *Handler {
-	return &Handler{usecases: usecases}
+func NewHandler(usecases *usecases.OpenAccountUsecases, smtpConfig *models.SMTPConfig) *Handler {
+	return &Handler{usecases: usecases, smtpConfig: smtpConfig}
 }
 
 func (h *Handler) VerifyMobileNoHandler() echo.HandlerFunc {
