@@ -6,10 +6,12 @@ import (
 	"github.com/amerikarno/icoApi/config"
 	"github.com/amerikarno/icoApi/external"
 	"github.com/amerikarno/icoApi/handlers"
+	"github.com/amerikarno/icoApi/middleware"
 	"github.com/amerikarno/icoApi/repository"
 	"github.com/amerikarno/icoApi/usecases"
 	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
+
+	// "github.com/labstack/echo/v4/middleware"
 
 	// "golang.org/x/crypto/acme/autocert"
 	"gorm.io/driver/mysql"
@@ -31,25 +33,27 @@ func main() {
 	external := external.NewExternalUuid()
 	e := echo.New()
 
-	e.Use(middleware.KeyAuth(func(key string, c echo.Context) (bool, error) {
-		return key == "fda-authen-key", nil
-	}))
+	regular := middleware.NewRegularMiddleware()
+
+	// e.Use(middleware.KeyAuth(func(key string, c echo.Context) (bool, error) {
+	// 	return key == "fda-authen-key", nil
+	// }))
 
 	usecase := usecases.NewOpenAccountUsecases(openAccountsRepo, external)
 	handler := handlers.NewHandler(usecase, smtpConfig)
-	e.GET("verify/email/:email/mobile/:mobileno", handler.VerifyEmailMobileHandler())
-	e.GET("verify/email/:email", handler.VerifyEmailHandler())
-	e.GET("verify/mobile/:mobileno", handler.VerifyMobileNoHandler())
-	e.GET("verify/idcard/:idcard", handler.VerifyIDCardHandler())
-	e.GET("api/v1/all_provinces", handler.GetAllProvinces(provinces))
-	e.GET("api/v1/amphures/:province", handler.GetAmphuresInProvince(amphures))
-	e.GET("api/v1/tambons/:amphure", handler.GetTambonsInAmphure(tambons))
-	e.GET("api/v1/zipcode/:zipname", handler.GetZipCode(zipcode))
-	e.GET("api/v1/idcard/:idcard", handler.GetIDcard())
-	e.POST("api/v1/idcard", handler.PostIDcard())
-	e.POST("api/v1/personalInformation", handler.PostPersonalInformations())
-	e.POST("api/v1/customerExams", handler.PostCustomerExamsHandler())
-	e.POST("api/v1/createCustomerConfirms", handler.PostCreateCustomerConfirmsHandler())
+	e.GET("verify/email/:email/mobile/:mobileno", handler.VerifyEmailMobileHandler(), regular.Authen)
+	e.GET("verify/email/:email", handler.VerifyEmailHandler(), regular.Authen)
+	e.GET("verify/mobile/:mobileno", handler.VerifyMobileNoHandler(), regular.Authen)
+	e.GET("verify/idcard/:idcard", handler.VerifyIDCardHandler(), regular.Authen)
+	e.GET("api/v1/all_provinces", handler.GetAllProvinces(provinces), regular.Authen)
+	e.GET("api/v1/amphures/:province", handler.GetAmphuresInProvince(amphures), regular.Authen)
+	e.GET("api/v1/tambons/:amphure", handler.GetTambonsInAmphure(tambons), regular.Authen)
+	e.GET("api/v1/zipcode/:zipname", handler.GetZipCode(zipcode), regular.Authen)
+	e.GET("api/v1/idcard/:idcard", handler.GetIDcard(), regular.Authen)
+	e.POST("api/v1/idcard", handler.PostIDcard(), regular.Authen)
+	e.POST("api/v1/personalInformation", handler.PostPersonalInformations(), regular.Authen)
+	e.POST("api/v1/customerExams", handler.PostCustomerExamsHandler(), regular.Authen)
+	e.POST("api/v1/createCustomerConfirms", handler.PostCreateCustomerConfirmsHandler(), regular.Authen)
 	e.GET("api/v1/updateCustomerConfirms/:tokenID", handler.GetUpdateCustomerConfirmsHandler())
 	e.POST("healthcheck", handler.HealthCheck())
 
@@ -64,6 +68,10 @@ func main() {
 	// if err := server.ListenAndServeTLS("./cert/myCA.pem", "./cert/myCA.crt"); err != nil {log.Fatal(err)}
 	// e.Logger.Fatal(e.StartTLS(":1323", "./cert/myCA.pem", "./cert/myCA.crt" ))
 	e.Logger.Fatal(e.Start(":1323"))
+}
+
+func NewRegularMiddleware() {
+	panic("unimplemented")
 }
 
 func initOpenAccountsDB() *gorm.DB {

@@ -211,20 +211,21 @@ func (h *Handler) PostCreateCustomerConfirmsHandler() echo.HandlerFunc {
 
 func (h *Handler) GetUpdateCustomerConfirmsHandler() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		// var postData models.CustomerConfirmsRequest
-		// if err := c.Bind(&postData); err != nil {
-		// 	fmt.Printf("error: %v\n", err)
-		// 	return c.JSON(http.StatusBadRequest, "")
-		// }
-
-		// fmt.Printf("post data: %+v\n", postData)
 		tokenID := c.Param("tokenID")
 		fmt.Printf("token id: %+v\n", tokenID)
-		id, err := h.usecases.UpdateConfirmsUsecase(tokenID)
+		resp, err := h.usecases.UpdateConfirmsUsecase(tokenID)
 		if err != nil {
-			return c.JSON(http.StatusBadRequest, err)
+			return c.JSON(http.StatusBadRequest, err.Error())
 		}
-		fmt.Printf("account id: %v\n", id)
-		return c.JSON(http.StatusOK, id)
+		if len(resp.TokenID) == 0 {
+			return c.JSON(http.StatusBadRequest, "invalid token id")
+		}
+
+		if resp.IsConfirm {
+			return c.JSON(http.StatusBadRequest, "token id have already been activated")
+		}
+
+		fmt.Printf("account id: %v\n", resp)
+		return c.JSON(http.StatusOK, resp)
 	}
 }

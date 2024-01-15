@@ -228,12 +228,14 @@ func (u *OpenAccountUsecases) CreateCustomerConfirmsUsecase(customerConfirms mod
 	return
 }
 
-func (u *OpenAccountUsecases) UpdateConfirmsUsecase(token string) (tokenID string, err error) {
+func (u *OpenAccountUsecases) UpdateConfirmsUsecase(token string) (query models.CustomerConfirmsRequest, err error) {
 	now := time.Now().Local()
-	query := u.oaRepository.QueryCustomerConfirmsExpireDT(token)
-
+	query = u.oaRepository.QueryCustomerConfirmsExpireDT(token)
+	if len(query.TokenID) == 0 {
+		return
+	}
 	if query.ExpireAt.Before(now) {
-		err = fmt.Errorf("expired: %v, now: %v", query.ExpireAt, now)
+		err = fmt.Errorf("token expired, now: %v, expired: %v", now, query.ExpireAt)
 		log.Println(err.Error())
 		return
 	}
@@ -246,7 +248,7 @@ func (u *OpenAccountUsecases) UpdateConfirmsUsecase(token string) (tokenID strin
 		return
 	}
 
-	return token, nil
+	return query, nil
 }
 
 func (u *OpenAccountUsecases) SendConfirmationEmail() {

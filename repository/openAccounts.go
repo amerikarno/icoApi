@@ -136,7 +136,7 @@ func (e *OpenAccountsRepository) UpdateCustomerConfirms(customerConfirms models.
 func (e *OpenAccountsRepository) QueryCustomerConfirmsExpireDT(tokenID string) models.CustomerConfirmsRequest {
 	custConfirmDetail := models.CustomerConfirmsRequest{}
 
-	if err := e.db.Debug().Where("token_id = ?", tokenID).First(&custConfirmDetail).Error; err != nil && err != gorm.ErrRecordNotFound {
+	if err := e.db.Debug().Where("token = ?", tokenID).First(&custConfirmDetail).Error; err != nil && err != gorm.ErrRecordNotFound {
 		log.Printf("error while checking customer token %s, error: %v", tokenID, err)
 	}
 

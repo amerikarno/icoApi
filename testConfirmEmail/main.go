@@ -1,29 +1,32 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"html/template"
 	"time"
 
-	// const (
-	// 	// Replace these values with your email server details
-	// 	smtpServer     = "smtp.gmail.com"
-	// 	senderEmail    = "karnake@gmail.com"
-	// 	senderPassword = "GG@23Apr1978"
-	// 	smtpPort       = 587
-	// 	// Replace the recipient email with the actual recipient's email address
-	// 	recipientEmail = "karnake.r@finansiada.com"
-	// 	// Email content in HTML format with a confirmation button
-	// 	subject = `แจ้งยืนยัน "อีเมล" การเปิดบัญชีกับ FINANSIA DIGITAL ASSET`
 	"log"
-	"os"
 
 	"github.com/amerikarno/icoApi/config"
+	"gopkg.in/gomail.v2"
 )
 
-//	token = "fda-authen-key"
-//
-// )
+const (
+	// Replace these values with your email server details
+	smtpServer     = "smtp.gmail.com"
+	senderEmail    = "karnake@gmail.com"
+	senderPassword = "dwbl ddxl yjuy ales"
+	smtpPort       = 587
+	// Replace the recipient email with the actual recipient's email address
+	recipientEmail = "karnake.r@finansiada.com"
+	// Email content in HTML format with a confirmation button
+	subject = `แจ้งยืนยัน "อีเมล" การเปิดบัญชีกับ FINANSIA DIGITAL ASSET`
+
+	// token = "fda-authen-key"
+
+)
+
 type EmailData struct {
 	Date             string
 	Name             string
@@ -39,24 +42,21 @@ func main() {
 	}
 	fmt.Printf("loading configuration\n %+v\n", config)
 
-	htmlBody := func() (htmlBody string) {
+	htmlBody := func() (body string) {
 		dateLayout := "02 Jan 2006"
 		data := EmailData{
 			Date:             time.Now().Local().Format(dateLayout),
 			Name:             "name surname",
 			ConfirmationCode: "abc123",
-			Token:            "fda-token",
+			Token:            "fda-authen-key",
 		}
-		tmpl, err := template.New(htmlBody).Parse(`
+		tmpl, err := template.New(body).Parse(`
 	<!DOCTYPE html>
 	<html>
 	<head>
 		<title>แจ้งยืนยัน "อีเมล" การเปิดบัญชีกับ FINANSIA DIGITAL ASSET</title>
 		<style>
 		.button {
-			position: absolute;
-			left: 35%%;
-			right: 35%%;
 			background-color: #1c87c9;
 			border: none;
 			border-radius: 10px;
@@ -68,6 +68,9 @@ func main() {
 			font-size: 20px;
 			margin: 4px 2px;
 			cursor: pointer;
+		  }
+		  .container {
+			text-align: center;
 		  }
 		  .textBegin {
 			color: black;
@@ -88,19 +91,21 @@ func main() {
 		<p class="textBody">กรุณายืนยันอีเมลของท่าน</p>
 		<p class="textBody">ตามที่ท่านได้สมัครเปิดบัญชีกับ บล.ฟินันเซีย ดิจิทัล แอสเซท จำกัด</p>
 		<p class="textBody">กรุณากดปุ่มด้านล่างเพื่อยืนยันอีเมล</p>
-		<p><a href="http://localhost:1323/api/v1/updateCustomerConfirms/{{.ConfirmationCode}}" header={Authorization: Bearer {{.Token}}} class="button">กดยืนยันอีเมล</a></p>
-
+		<div class="container"><a href="http://localhost:1323/api/v1/updateCustomerConfirms/{{.ConfirmationCode}}" header={Authorization: Bearer fda-authen-key} class="button">กดยืนยันอีเมล</a></div>
 	</body>
 	</html>
 	`)
 		if err != nil {
 			log.Fatalf("Failed to create email template: %v", err)
 		}
-		if err = tmpl.Execute(os.Stdout, data); err != nil {
+		var bodyBytes bytes.Buffer
+		if err = tmpl.Execute(&bodyBytes, data); err != nil {
 			log.Fatalf("Failed to execute template: %v", err)
 		}
-		return
+		// tmpl.Execute(&bodyBytes, nil)
+		return bodyBytes.String()
 	}()
+
 	fmt.Printf("html body: %v\n", htmlBody)
 	// Generate a random confirmation code or token
 	// confirmationCode := generateConfirmationCode()
@@ -155,25 +160,25 @@ func main() {
 	// `, date, name, confirmationCode, token)
 
 	// Create a new message
-	// m := gomail.NewMessage()
+	m := gomail.NewMessage()
 
-	// // Set sender and recipient
-	// m.SetHeader("From", senderEmail)
-	// m.SetHeader("To", recipientEmail)
+	// Set sender and recipient
+	m.SetHeader("From", senderEmail)
+	m.SetHeader("To", recipientEmail)
 
-	// // Set subject
-	// m.SetHeader("Subject", subject)
+	// Set subject
+	m.SetHeader("Subject", subject)
 
-	// // Set HTML body with custom Authorization header
-	// m.SetBody("text/html", htmlBody)
+	// Set HTML body with custom Authorization header
+	m.SetBody("text/html", htmlBody)
 
-	// // Create a new mailer
-	// d := gomail.NewDialer(smtpServer, smtpPort, senderEmail, senderPassword)
+	// Create a new mailer
+	d := gomail.NewDialer(smtpServer, smtpPort, senderEmail, senderPassword)
 
-	// // Send the email
-	// if err := d.DialAndSend(m); err != nil {
-	// 	panic(err)
-	// }
+	// Send the email
+	if err := d.DialAndSend(m); err != nil {
+		panic(err)
+	}
 
 	println("Email sent successfully!")
 }
