@@ -92,6 +92,10 @@ func (u *OpenAccountUsecases) UpdateCustomerPersonalInformationUsecase(personalI
 	pInfo.CustomerInformation.PositionName = personalInfo.Occupation.PositionName
 	pInfo.CustomerInformation.SalaryRange = personalInfo.Occupation.SalaryRange
 	pInfo.CustomerInformation.Update = now
+	pInfo.CustomerInformation.ShortTermInvestment = personalInfo.Investment.ShortTermInvestment
+	pInfo.CustomerInformation.LongTermInvestment = personalInfo.Investment.LongTermInvestment
+	pInfo.CustomerInformation.TaxesInvestment = personalInfo.Investment.TaxesInvestment
+	pInfo.CustomerInformation.RetireInvestment = personalInfo.Investment.RetireInvestment
 	pInfo.CustomerAddresseLists = append(pInfo.CustomerAddresseLists, models.CustomerAddressResponse{
 		AccountID:           accountID,
 		HomeNumber:          personalInfo.RegisteredAddress.HomeNumber,

@@ -60,29 +60,33 @@ type TambonList struct {
 }
 
 type CustomerInformations struct {
-	AccountID         string    `json:"id" gorm:"column:id"`
-	ThTitle           string    `json:"thTitle" gorm:"column:th_title"`
-	ThName            string    `json:"thName" gorm:"column:th_name"`
-	ThSurname         string    `json:"thSurname" gorm:"column:th_surname"`
-	EngTitle          string    `json:"engTitle" gorm:"column:en_title"`
-	EngName           string    `json:"engName" gorm:"column:en_name"`
-	EngSurname        string    `json:"engSurname" gorm:"column:en_surname"`
-	Email             string    `json:"email" gorm:"column:email"`
-	Mobile            string    `json:"mobile" gorm:"column:mobile_no"`
-	Agreement         bool      `json:"agreement" gorm:"column:personal_agreement"`
-	BirthDate         string    `json:"birthDate" gorm:"column:birth_date"`
-	MarriageStatus    string    `json:"marriageStatus" gorm:"column:marriage_status"`
-	IDCard            string    `json:"idCard" gorm:"column:id_card"`
-	LaserCode         string    `json:"laserCode" gorm:"column:laser_code"`
-	SourceOfIncome    string    `json:"sourceOfIncome" gorm:"column:source_of_income"`
-	CurrentOccupation string    `json:"currentOccupation" gorm:"column:current_occupation"`
-	OfficeName        string    `json:"officeName" gorm:"column:office_name"`
-	TypeOfBusiness    string    `json:"typeOfBusiness" gorm:"column:type_of_business"`
-	PositionName      string    `json:"positionName" gorm:"column:position_name"`
-	SalaryRange       string    `json:"salaryRange" gorm:"column:salary_range"`
-	Pages             bool      `json:"pages" gorm:"column:personal_pages"`
-	Update            time.Time `json:"update" gorm:"column:update_at"`
-	Create            time.Time `json:"create" gorm:"column:create_at"`
+	AccountID           string    `json:"id" gorm:"column:id"`
+	ThTitle             string    `json:"thTitle" gorm:"column:th_title"`
+	ThName              string    `json:"thName" gorm:"column:th_name"`
+	ThSurname           string    `json:"thSurname" gorm:"column:th_surname"`
+	EngTitle            string    `json:"engTitle" gorm:"column:en_title"`
+	EngName             string    `json:"engName" gorm:"column:en_name"`
+	EngSurname          string    `json:"engSurname" gorm:"column:en_surname"`
+	Email               string    `json:"email" gorm:"column:email"`
+	Mobile              string    `json:"mobile" gorm:"column:mobile_no"`
+	Agreement           bool      `json:"agreement" gorm:"column:personal_agreement"`
+	BirthDate           string    `json:"birthDate" gorm:"column:birth_date"`
+	MarriageStatus      string    `json:"marriageStatus" gorm:"column:marriage_status"`
+	IDCard              string    `json:"idCard" gorm:"column:id_card"`
+	LaserCode           string    `json:"laserCode" gorm:"column:laser_code"`
+	SourceOfIncome      string    `json:"sourceOfIncome" gorm:"column:source_of_income"`
+	CurrentOccupation   string    `json:"currentOccupation" gorm:"column:current_occupation"`
+	OfficeName          string    `json:"officeName" gorm:"column:office_name"`
+	TypeOfBusiness      string    `json:"typeOfBusiness" gorm:"column:type_of_business"`
+	PositionName        string    `json:"positionName" gorm:"column:position_name"`
+	SalaryRange         string    `json:"salaryRange" gorm:"column:salary_range"`
+	ShortTermInvestment bool      `json:"shortTermInvestment" gorm:"column:is_short_term"`
+	LongTermInvestment  bool      `json:"longTermInvestment" gorm:"column:is_long_term"`
+	TaxesInvestment     bool      `json:"taxesInvestment" gorm:"column:is_taxes"`
+	RetireInvestment    bool      `json:"retireInvestment" gorm:"column:is_retirement"`
+	Pages               bool      `json:"pages" gorm:"column:personal_pages"`
+	Update              time.Time `json:"update" gorm:"column:update_at"`
+	Create              time.Time `json:"create" gorm:"column:create_at"`
 }
 
 func (CustomerInformations) TableName() string { return "customer_informations" }
@@ -208,6 +212,7 @@ type PersonalInformationPostRequests struct {
 	Occupation        CustomerOccupationRequest `json:"occupation"`
 	FirstBankAccount  CustomerBookbankRequest   `json:"firstBankAccount"`
 	SecondBankAccount CustomerBookbankRequest   `json:"secondBankAccount"`
+	Investment        InvestmentRequest         `json:"investment"`
 }
 
 type CustomerOccupationRequest struct {
