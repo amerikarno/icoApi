@@ -57,6 +57,9 @@ func main() {
 	e.GET("api/v1/updateCustomerConfirms/:tokenID", handler.GetUpdateCustomerConfirmsHandler())
 	e.POST("healthcheck", handler.HealthCheck())
 
+	gAdmin := e.Group("/admin/v1")
+	gAdmin.GET("/healthcheck", handler.HealthCheck())
+
 	// server := http.Server{
 	// 	Addr: ":1323",
 	// 	Handler: e,
