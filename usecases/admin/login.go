@@ -2,6 +2,7 @@ package adminLoginUsecases
 
 import (
 	"github.com/amerikarno/icoApi/models"
+	"github.com/amerikarno/icoApi/token"
 )
 
 type AdminLoginUsecase struct {
@@ -10,11 +11,13 @@ type AdminLoginUsecase struct {
 	pass IAdminPassword
 }
 
-func NewAdminLoginUsecase() *AdminLoginUsecase {
-	return &AdminLoginUsecase{}
+func NewAdminLoginUsecase(db   IAdminLoginUsecases,
+	ext  IExternal,
+	pass IAdminPassword) *AdminLoginUsecase {
+	return &AdminLoginUsecase{db, ext, pass}
 }
 
-func (u *AdminLoginUsecase) Create(email, permission string) (resp models.AdminLoginResponse) {
+func (u *AdminLoginUsecase) Create(email, permission string) (resp models.JwtUserModel) {
 	var admin, create models.AdminLoginRepositoryModel
 	admin.ID = u.ext.GenUuid()
 	admin.Email = email
@@ -26,7 +29,7 @@ func (u *AdminLoginUsecase) Create(email, permission string) (resp models.AdminL
 		resp.LoginStatus = Failed
 		return
 	}
-	resp = models.AdminLoginResponse{
+	resp = models.JwtUserModel{
 		ID:          admin.ID,
 		Email:       email,
 		Permission:  permission,
@@ -39,21 +42,37 @@ func (u *AdminLoginUsecase) Verify(email, password string) (resp models.AdminLog
 	var login models.AdminLoginRepositoryModel
 	if login = u.db.Verify(email); login.Error != nil {
 		resp.Error = login.Error
-		resp.LoginStatus = Failed
 		return
 	}
+
 	if password != login.Password {
 		resp.Error = login.Error
-		resp.LoginStatus = Failed
 		return
 
 	}
-	resp = models.AdminLoginResponse{
+	user := models.JwtUserModel{
 		ID:          login.ID,
 		Email:       email,
 		Permission:  login.Permission,
 		UserID:      login.UserID,
 		LoginStatus: Success,
 	}
+
+	rc := token.NewRefreshClaims(&user)
+	ac := token.NewAccessClaims(&user)
+
+	var err error
+	resp.RequestToken, err = rc.JwtString()
+	if err != nil {
+		resp.Error = err
+		return
+	}
+
+	resp.AccessToken, err = ac.JwtString()
+	if err != nil {
+		resp.Error = err
+		return
+	}
+
 	return
 }

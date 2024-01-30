@@ -8,7 +8,9 @@ import (
 	"github.com/amerikarno/icoApi/handlers"
 	"github.com/amerikarno/icoApi/middleware"
 	"github.com/amerikarno/icoApi/repository"
+	adminLoginRepository "github.com/amerikarno/icoApi/repository/admin"
 	"github.com/amerikarno/icoApi/usecases"
+	adminLoginUsecases "github.com/amerikarno/icoApi/usecases/admin"
 	"github.com/labstack/echo/v4"
 
 	// "github.com/labstack/echo/v4/middleware"
@@ -30,7 +32,7 @@ func main() {
 	openAccountsDB := initOpenAccountsDB()
 	openAccountsRepo := repository.NewOpenAccountsRepository(openAccountsDB)
 
-	external := external.NewExternalUuid()
+	external := external.NewExternalServices()
 	e := echo.New()
 
 	regular := middleware.NewRegularMiddleware()
@@ -57,8 +59,13 @@ func main() {
 	e.GET("api/v1/updateCustomerConfirms/:tokenID", handler.GetUpdateCustomerConfirmsHandler())
 	e.POST("healthcheck", handler.HealthCheck())
 
+	adminPassword := adminLoginRepository.NewAdminPassword()
+	adminRepo := adminLoginRepository.NewLoginRepository(openAccountsDB)
+	adminUsecase := adminLoginUsecases.NewAdminLoginUsecase(adminRepo, external, adminPassword)
+	adminHandler := handlers.NewAdminHandler(adminUsecase)
 	gAdmin := e.Group("/admin/v1")
 	gAdmin.GET("/healthcheck", handler.HealthCheck())
+	gAdmin.POST("/login", adminHandler.LoginHandler())
 
 	// server := http.Server{
 	// 	Addr: ":1323",

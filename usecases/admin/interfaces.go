@@ -9,6 +9,7 @@ type IAdminLoginUsecases interface {
 
 type IExternal interface {
 	GenUuid() (uid string)
+	HashString(input string) string
 }
 
 type IAdminPassword interface {

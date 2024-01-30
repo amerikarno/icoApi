@@ -12,16 +12,16 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type Handler struct {
+type OpenAccountHandler struct {
 	usecases   *usecases.OpenAccountUsecases
 	smtpConfig *models.SMTPConfig
 }
 
-func NewHandler(usecases *usecases.OpenAccountUsecases, smtpConfig *models.SMTPConfig) *Handler {
-	return &Handler{usecases: usecases, smtpConfig: smtpConfig}
+func NewHandler(usecases *usecases.OpenAccountUsecases, smtpConfig *models.SMTPConfig) *OpenAccountHandler {
+	return &OpenAccountHandler{usecases: usecases, smtpConfig: smtpConfig}
 }
 
-func (h *Handler) VerifyMobileNoHandler() echo.HandlerFunc {
+func (h *OpenAccountHandler) VerifyMobileNoHandler() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var response models.VerifyMobileNoResponse
 		response.RegistedMobileNo = strings.ToLower(c.Param("mobileno"))
@@ -31,7 +31,7 @@ func (h *Handler) VerifyMobileNoHandler() echo.HandlerFunc {
 	}
 }
 
-func (h *Handler) VerifyIDCardHandler() echo.HandlerFunc {
+func (h *OpenAccountHandler) VerifyIDCardHandler() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var response models.VerifyIDCardResponse
 		response.RegistedIDCard = strings.ToLower(c.Param("idcard"))
@@ -41,7 +41,7 @@ func (h *Handler) VerifyIDCardHandler() echo.HandlerFunc {
 	}
 }
 
-func (h *Handler) VerifyEmailHandler() echo.HandlerFunc {
+func (h *OpenAccountHandler) VerifyEmailHandler() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var response models.VerifyEmailResponse
 		response.RegistedEmail = strings.ToLower(c.Param("email"))
@@ -50,7 +50,7 @@ func (h *Handler) VerifyEmailHandler() echo.HandlerFunc {
 		return c.JSON(http.StatusOK, response)
 	}
 }
-func (h *Handler) VerifyEmailMobileHandler() echo.HandlerFunc {
+func (h *OpenAccountHandler) VerifyEmailMobileHandler() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var response models.VerifyEmailMobileResponse
 		var pages string
@@ -92,41 +92,41 @@ func (h *Handler) VerifyEmailMobileHandler() echo.HandlerFunc {
 	}
 }
 
-func (h *Handler) GetAllProvinces(provinces []string) echo.HandlerFunc {
+func (h *OpenAccountHandler) GetAllProvinces(provinces []string) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		return c.JSON(http.StatusOK, provinces)
 	}
 }
 
-func (h *Handler) GetAmphuresInProvince(amphures map[string][]string) echo.HandlerFunc {
+func (h *OpenAccountHandler) GetAmphuresInProvince(amphures map[string][]string) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		province := c.Param("province")
 		return c.JSON(http.StatusOK, amphures[province])
 	}
 }
 
-func (h *Handler) GetTambonsInAmphure(tambons map[string][]string) echo.HandlerFunc {
+func (h *OpenAccountHandler) GetTambonsInAmphure(tambons map[string][]string) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		amphure := c.Param("amphure")
 		return c.JSON(http.StatusOK, tambons[amphure])
 	}
 }
 
-func (h *Handler) GetZipCode(zipcode map[string]int) echo.HandlerFunc {
+func (h *OpenAccountHandler) GetZipCode(zipcode map[string]int) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		zipname := c.Param("zipname")
 		return c.JSON(http.StatusOK, zipcode[zipname])
 	}
 }
 
-func (h *Handler) GetIDcard() echo.HandlerFunc {
+func (h *OpenAccountHandler) GetIDcard() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		idcard := c.Param("idcard")
 		return c.JSON(http.StatusOK, h.usecases.VerifyIDCardNumber(idcard))
 	}
 }
 
-func (h *Handler) PostIDcard() echo.HandlerFunc {
+func (h *OpenAccountHandler) PostIDcard() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var postData models.CustomerInformations
 		if err := c.Bind(&postData); err != nil {
@@ -149,7 +149,7 @@ func (h *Handler) PostIDcard() echo.HandlerFunc {
 	}
 }
 
-func (h *Handler) PostPersonalInformations() echo.HandlerFunc {
+func (h *OpenAccountHandler) PostPersonalInformations() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var postData models.PersonalInformationPostRequests
 		if err := c.Bind(&postData); err != nil {
@@ -167,13 +167,13 @@ func (h *Handler) PostPersonalInformations() echo.HandlerFunc {
 	}
 }
 
-func (h *Handler) HealthCheck() echo.HandlerFunc {
+func (h *OpenAccountHandler) HealthCheck() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		return c.JSON(http.StatusOK, fmt.Sprintf("Service Available at %v", time.Now().Local()))
 	}
 }
 
-func (h *Handler) PostCustomerExamsHandler() echo.HandlerFunc {
+func (h *OpenAccountHandler) PostCustomerExamsHandler() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var postData models.CustomerExamsRequest
 		if err := c.Bind(&postData); err != nil {
@@ -191,7 +191,7 @@ func (h *Handler) PostCustomerExamsHandler() echo.HandlerFunc {
 	}
 }
 
-func (h *Handler) PostCreateCustomerConfirmsHandler() echo.HandlerFunc {
+func (h *OpenAccountHandler) PostCreateCustomerConfirmsHandler() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var postData models.CustomerConfirmsRequest
 		if err := c.Bind(&postData); err != nil {
@@ -209,7 +209,7 @@ func (h *Handler) PostCreateCustomerConfirmsHandler() echo.HandlerFunc {
 	}
 }
 
-func (h *Handler) GetUpdateCustomerConfirmsHandler() echo.HandlerFunc {
+func (h *OpenAccountHandler) GetUpdateCustomerConfirmsHandler() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		tokenID := c.Param("tokenID")
 		fmt.Printf("token id: %+v\n", tokenID)
