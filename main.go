@@ -12,6 +12,8 @@ import (
 	"github.com/amerikarno/icoApi/usecases"
 	adminLoginUsecases "github.com/amerikarno/icoApi/usecases/admin"
 	"github.com/labstack/echo/v4"
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 
 	// "github.com/labstack/echo/v4/middleware"
 
@@ -36,7 +38,7 @@ func main() {
 	e := echo.New()
 
 	regular := middleware.NewRegularMiddleware()
-
+	logger := loadLogging()
 	// e.Use(middleware.KeyAuth(func(key string, c echo.Context) (bool, error) {
 	// 	return key == "fda-authen-key", nil
 	// }))
@@ -60,12 +62,14 @@ func main() {
 	e.POST("healthcheck", handler.HealthCheck())
 
 	adminPassword := adminLoginRepository.NewAdminPassword()
-	adminRepo := adminLoginRepository.NewLoginRepository(openAccountsDB)
-	adminUsecase := adminLoginUsecases.NewAdminLoginUsecase(adminRepo, external, adminPassword)
-	adminHandler := handlers.NewAdminHandler(adminUsecase)
+	adminRepo := adminLoginRepository.NewLoginRepository(openAccountsDB, logger)
+	adminUsecase := adminLoginUsecases.NewAdminLoginUsecase(adminRepo, external, adminPassword, logger)
+	adminHandler := handlers.NewAdminHandler(adminUsecase, logger)
 	gAdmin := e.Group("/admin/v1")
 	gAdmin.GET("/healthcheck", handler.HealthCheck())
+	gAdmin.POST("/create", adminHandler.CreateHandler())
 	gAdmin.POST("/login", adminHandler.LoginHandler())
+	gAdmin.GET("/refresh", adminHandler.RefreshTokenHandler())
 
 	// server := http.Server{
 	// 	Addr: ":1323",
@@ -92,4 +96,33 @@ func initOpenAccountsDB() *gorm.DB {
 		log.Fatal(err)
 	}
 	return mysqldb
+}
+
+func loadLogging() *zap.Logger {
+	cfg := zap.Config{
+		Encoding:         "json",
+		Level:            zap.NewAtomicLevelAt(zapcore.DebugLevel),
+		OutputPaths:      []string{"stderr"},
+		ErrorOutputPaths: []string{"stderr"},
+		EncoderConfig: zapcore.EncoderConfig{
+			MessageKey: "message",
+
+			LevelKey:    "level",
+			EncodeLevel: zapcore.CapitalLevelEncoder,
+
+			TimeKey:    "time",
+			EncodeTime: zapcore.ISO8601TimeEncoder,
+
+			CallerKey:    "source",
+			EncodeCaller: zapcore.ShortCallerEncoder,
+
+			NameKey: "requestID",
+		},
+	}
+	logger, err := cfg.Build()
+	if err != nil {
+		logger.Error("error:", zap.Error(err))
+	}
+
+	return logger
 }

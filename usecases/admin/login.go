@@ -1,67 +1,87 @@
 package adminLoginUsecases
 
 import (
+	"log"
+	"time"
+
 	"github.com/amerikarno/icoApi/models"
 	"github.com/amerikarno/icoApi/token"
+	"go.uber.org/zap"
 )
 
 type AdminLoginUsecase struct {
-	db   IAdminLoginUsecases
-	ext  IExternal
-	pass IAdminPassword
+	db     IAdminLoginUsecases
+	ext    IExternal
+	pass   IAdminPassword
+	logger *zap.Logger
 }
 
-func NewAdminLoginUsecase(db   IAdminLoginUsecases,
-	ext  IExternal,
-	pass IAdminPassword) *AdminLoginUsecase {
-	return &AdminLoginUsecase{db, ext, pass}
+func NewAdminLoginUsecase(db IAdminLoginUsecases,
+	ext IExternal,
+	pass IAdminPassword,
+	logger *zap.Logger) *AdminLoginUsecase {
+	return &AdminLoginUsecase{db, ext, pass, logger}
 }
 
-func (u *AdminLoginUsecase) Create(email, permission string) (resp models.JwtUserModel) {
+func (u *AdminLoginUsecase) Create(req models.AdminCreateRequestModel) (resp models.AdminCreateResponseModel) {
 	var admin, create models.AdminLoginRepositoryModel
+	var err error
 	admin.ID = u.ext.GenUuid()
-	admin.Email = email
-	admin.Password = u.pass.GeneratePassword(13)
-	admin.Permission = permission
-
-	if create = u.db.Create(admin); create.Error != nil {
-		resp.Error = create.Error
-		resp.LoginStatus = Failed
+	admin.HashedUsername = u.ext.HashString(req.Email)
+	admin.EncryptedUsername, err = u.ext.Encrypt(req.Email, EncodingKey)
+	if err != nil {
+		u.logger.Error("error:", zap.Error(err))
 		return
 	}
-	resp = models.JwtUserModel{
-		ID:          admin.ID,
-		Email:       email,
-		Permission:  permission,
-		UserID:      create.UserID,
-		LoginStatus: Success,
+	pass := u.pass.GeneratePassword(8)
+	admin.HashedPassword = u.ext.HashString(pass)
+	admin.EncryptedPassword, err = u.ext.Encrypt(pass, EncodingKey)
+	u.logger.Info("username and password", zap.String("username", req.Email), zap.String("password", pass))
+	if err != nil {
+		u.logger.Error("error:", zap.Error(err))
+		return
+	}
+	admin.Permission = req.Permission
+	now := time.Now()
+	admin.CreatedAt = now
+	admin.ExpiredAt = now.AddDate(1, 0, 0)
+
+	create, err = u.db.Create(admin)
+	if err != nil {
+		u.logger.Error("error while creating admin account:", zap.Error(err))
+		return
+	}
+	resp = models.AdminCreateResponseModel{
+		ID:  create.ID,
+		Email: req.Email,
+		Password: pass,
 	}
 	return
 }
 func (u *AdminLoginUsecase) Verify(email, password string) (resp models.AdminLoginResponse) {
-	var login models.AdminLoginRepositoryModel
-	if login = u.db.Verify(email); login.Error != nil {
-		resp.Error = login.Error
+	var login models.AdminAccountsModel
+	var err error
+	if login, err = u.db.Verify(email); err != nil {
+		log.Printf("error: %v", err)
 		return
 	}
 
-	if password != login.Password {
-		resp.Error = login.Error
+	if password != login.HashedPassword {
 		return
 
 	}
 	user := models.JwtUserModel{
-		ID:          login.ID,
-		Email:       email,
-		Permission:  login.Permission,
-		UserID:      login.UserID,
+		ID:    login.ID,
+		Email: email,
+		// Permission:  login.Permission,
+		// UserID:      login.CustomerID,
 		LoginStatus: Success,
 	}
 
 	rc := token.NewRefreshClaims(&user)
 	ac := token.NewAccessClaims(&user)
 
-	var err error
+	// var err error
 	resp.RequestToken, err = rc.JwtString()
 	if err != nil {
 		resp.Error = err

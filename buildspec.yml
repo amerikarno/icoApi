@@ -1,0 +1,20 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      go: 'latest'
+  pre_build:
+    commands:
+      - echo Installing dependencies...
+      - go get ./...
+  build:
+    commands:
+      - echo Build started on `date`
+      - go build -o myapp
+  post_build:
+    commands:
+      - echo Build completed on `date`
+artifacts:
+  files:
+    - myapp
