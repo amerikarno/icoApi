@@ -1,37 +1,64 @@
 package risks
 
 type CustomerRisk struct {
-	Occupation string
-	PoliticalStatus bool
-	AMLlist    string
-	IsInThailand bool
-	Country    string
+	occupation      string // from occupation in openaccount
+	politicalStatus bool   // from CDD
+	amllist         string // from CDD
+	country         string // registered address in Thailand
+	Occupation      int    // from occupation in openaccount
+	PoliticalStatus int    // from CDD
+	Amllist         int    // from CDD
+	Country         int
+	Summary         int
 }
 
-func NewCustomerRisksUsecases() *CustomerRisk {
-	return &CustomerRisk{}
+// type CustomerRiskReturn struct {
+// 	Occupation      int // from occupation in openaccount
+// 	PoliticalStatus int // from CDD
+// 	Amllist         int // from CDD
+// 	Country         int
+// 	Summary         int
+// }
+
+func NewCustomerRisksUsecases(
+	occupation string,
+	politicalStatus bool,
+	amllist string,
+	country string,
+) *CustomerRisk {
+	return &CustomerRisk{
+		occupation:      occupation,
+		politicalStatus: politicalStatus,
+		amllist:         amllist,
+		country:         country,
+	}
 }
 
-func (r *CustomerRisk) OccupationUsecase() int {
-	switch r.Occupation {
+func (r *CustomerRisk) getOccupationUsecase() *CustomerRisk {
+	switch r.occupation {
 	case "นักการเมืองในประเทศ", "พระภิกษุ/นักบวช":
-		return 4
+		r.Occupation = 4
+		return r
 	case "กิจการครอบครัว", "พนักงานบริษัท", "เจ้าของธุรกิจ/ธุรกิจส่วนตัว", "อาชีพอิสระ", "เกษตรกร":
-		return 2
+		r.Occupation = 2
+		return r
 	case "ข้าราชการ", "อาจารย์", "ครู", "แพทย์", "พยาบาล", "พนักงานรัฐวิสาหกิจ":
-		return 1
+		r.Occupation = 1
+		return r
 	}
-	return 0
+	return r
 }
 
-func (r *CustomerRisk) PoliticalStatusUsecase() int {
-	if r.PoliticalStatus {
-		return 4
+func (r *CustomerRisk) getPoliticalStatusUsecase() *CustomerRisk {
+	// this data from CDD API
+	if r.politicalStatus {
+		r.PoliticalStatus = 4
+		return r
 	}
-	return 0
+	return r
 }
 
-func (r *CustomerRisk) AMLUsecase() int {
+func (r *CustomerRisk) getAMLUsecase() *CustomerRisk {
 	lists := []string{
 		"HR-08-RISK",
 		"HR-02",
@@ -47,17 +74,32 @@ func (r *CustomerRisk) AMLUsecase() int {
 		"E",
 	}
 	for i := range lists {
-		if r.AMLlist == lists[i] {
-			return 4
+		if r.amllist == lists[i] {
+			r.Amllist = 4
+			return r
 		}
 	}
-	return 0
+	return r
 }
 
-func (r *CustomerRisk) IsInThailandUsecase() int {
-	if r.IsInThailand {
-		return 0
+func (r *CustomerRisk) getIsInThailandUsecase() *CustomerRisk {
+	if r.country == "Thailand" || r.country == "thailand" || r.country == "ไทย" {
+		return r
 	}
-	return 4
+	r.Country = 4
+	return r
 }
 
+func (r *CustomerRisk) GetSum() *CustomerRisk {
+	// oc := r.getOccupationUsecase()
+	// ps := r.getPoliticalStatusUsecase()
+	// aml := r.getAMLUsecase()
+	// cnt := r.getIsInThailandUsecase()
+	// r.Occupation = oc.Occupation
+	// r.PoliticalStatus = ps.PoliticalStatus
+	// r.Amllist = aml.Amllist
+	// r.Country = cnt.Country
+	// r.Summary = oc.Occupation + ps.PoliticalStatus + aml.Amllist + cnt.Country
+	r.Summary = r.getOccupationUsecase().Occupation + r.getAMLUsecase().Amllist + r.getPoliticalStatusUsecase().PoliticalStatus + r.getIsInThailandUsecase().Country
+	return r
+}

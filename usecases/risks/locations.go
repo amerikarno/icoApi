@@ -1,15 +1,21 @@
 package risks
 
 type LocationRisk struct {
-	Country    string
-	Province    string
+	province      string // from registered / current / office addresses
+	country       string // from registered / current /
+	ProvincePoint int
+	CountryPoint  int
+	SummaryPoint  int
 }
 
-func NewLocationRisksUsecases() *LocationRisk {
-	return &LocationRisk{}
+func NewLocationRisksUsecases(
+	province string, // from registered / current / office addresses
+	country string, // from registered / current /
+) *LocationRisk {
+	return &LocationRisk{province: province, country: country}
 }
 
-func (r *LocationRisk) ProvinceUsecase() int {
+func (r *LocationRisk) ProvinceUsecase() *LocationRisk {
 	provinceLists := []string{
 		"ยะลา",
 		"ปัตตานี",
@@ -17,14 +23,15 @@ func (r *LocationRisk) ProvinceUsecase() int {
 	}
 
 	for i := range provinceLists {
-		if r.Province == provinceLists[i] {
-			return 4
+		if r.province == provinceLists[i] {
+			r.ProvincePoint = 4
+			return r
 		}
 	}
-	return 0
+	return r
 }
 
-func (r *LocationRisk) CountryUsecase() int {
+func (r *LocationRisk) CountryUsecase() *LocationRisk {
 	jurisdictCountryLists := []string{
 		"Albania",
 		"Barbados",
@@ -94,16 +101,23 @@ func (r *LocationRisk) CountryUsecase() int {
 	}
 
 	for i := range jurisdictCountryLists {
-		if r.Country == jurisdictCountryLists[i] {
-			return 4
+		if r.country == jurisdictCountryLists[i] {
+			r.CountryPoint = 4
+			return r
 		}
 	}
 
 	for i := range FATFCountryLists {
-		if r.Country == FATFCountryLists[i] {
-			return 2
+		if r.country == FATFCountryLists[i] {
+			r.CountryPoint = 2
+			return r
 		}
 	}
 
-	return 0
+	return r
+}
+
+func (r *LocationRisk) GetSum() *LocationRisk {
+	r.SummaryPoint = r.CountryPoint + r.ProvincePoint
+	return r
 }
