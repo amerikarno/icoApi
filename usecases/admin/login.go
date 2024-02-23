@@ -67,8 +67,8 @@ func (u *AdminLoginUsecase) Verify(email, password string) (resp models.AdminLog
 	}
 
 	if password != login.HashedPassword {
+		log.Printf("password: %v\nlogin: %v",password, login.HashedPassword)
 		return
-
 	}
 	user := models.JwtUserModel{
 		ID:    login.ID,

@@ -1,4 +1,4 @@
-package adminLoginRepository
+package adminRepository
 
 import (
 	"fmt"

@@ -6,12 +6,16 @@ import (
 	"github.com/amerikarno/icoApi/config"
 	"github.com/amerikarno/icoApi/external"
 	"github.com/amerikarno/icoApi/handlers"
-	"github.com/amerikarno/icoApi/middleware"
+	preinfoh "github.com/amerikarno/icoApi/handlers/preInfo"
+	mw "github.com/amerikarno/icoApi/middleware"
 	"github.com/amerikarno/icoApi/repository"
 	adminLoginRepository "github.com/amerikarno/icoApi/repository/admin"
+	preinfor "github.com/amerikarno/icoApi/repository/preInfo"
 	"github.com/amerikarno/icoApi/usecases"
 	adminLoginUsecases "github.com/amerikarno/icoApi/usecases/admin"
+	preinfou "github.com/amerikarno/icoApi/usecases/preInfo"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 
@@ -37,7 +41,7 @@ func main() {
 	external := external.NewExternalServices()
 	e := echo.New()
 
-	regular := middleware.NewRegularMiddleware()
+	regular := mw.NewRegularMiddleware()
 	logger := loadLogging()
 	// e.Use(middleware.KeyAuth(func(key string, c echo.Context) (bool, error) {
 	// 	return key == "fda-authen-key", nil
@@ -70,6 +74,27 @@ func main() {
 	gAdmin.POST("/create", adminHandler.CreateHandler())
 	gAdmin.POST("/login", adminHandler.LoginHandler())
 	gAdmin.GET("/refresh", adminHandler.RefreshTokenHandler())
+	dashboard := e.Group("/admin/v1/dashboard")
+	dashboard.POST("/users", adminHandler.LoginHandler())
+
+	// preinfo
+	preinfoRepo := preinfor.NewPreInfoRepository(openAccountsDB)
+	preinfoUsecase := preinfou.NewPreInfoUsecase(preinfoRepo)
+	preinfoHandler := preinfoh.NewPreInfoHander(preinfoUsecase)
+
+	api := e.Group("/api")
+	api.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+		AllowHeaders: []string{},
+	}))
+	api.POST("/getTitleName", preinfoHandler.GetTitles())
+	api.POST("/checkExistMobile", preinfoHandler.CheckExistMobile())
+	api.POST("/checkExistEmail", preinfoHandler.CheckExistEmail())
+	api.POST("/checkExistIdcard", preinfoHandler.CheckExistIDcard())
+	api.POST("/clearViewCount", preinfoHandler.ClearViewCount())
+	api.GET("/loadIDcard", preinfoHandler.LoadIDcard())
+	api.POST("/saveTempdata", preinfoHandler.SaveTempdata())
+	api.POST("/currentPage", preinfoHandler.CheckCurrentPage())
 
 	// server := http.Server{
 	// 	Addr: ":1323",

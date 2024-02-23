@@ -1,4 +1,4 @@
-package adminLoginRepository_test
+package adminRepository_test
 
 import (
 	"testing"
