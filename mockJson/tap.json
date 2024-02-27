@@ -1,0 +1,9 @@
+[
+    {
+        "id": 1,
+        "name": "พนักงานรัฐวิสาหกิจ",
+        "business_flag": "N",
+        "workplace_flag": "Y",
+        "position_flag": "Y"
+    }
+]

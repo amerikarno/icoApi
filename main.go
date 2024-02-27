@@ -95,7 +95,12 @@ func main() {
 	api.GET("/loadIDcard", preinfoHandler.LoadIDcard())
 	api.POST("/saveTempdata", preinfoHandler.SaveTempdata())
 	api.POST("/currentPage", preinfoHandler.CheckCurrentPage())
-
+	api.POST("/getBasicDropdown", preinfoHandler.GetBasicDropdown())
+	api.GET("/checkBasicInfo", preinfoHandler.ClearViewCount())
+	api.POST("/get-geo-data", preinfoHandler.GetTAPInfo())
+	api.POST("/get-Business-type-dropdown", preinfoHandler.GetCarrerTypes())
+	api.POST("/get-basic-branch-dropdown", preinfoHandler.GetBankBranch())
+	
 	// server := http.Server{
 	// 	Addr: ":1323",
 	// 	Handler: e,

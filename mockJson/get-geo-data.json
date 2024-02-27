@@ -1,0 +1,318 @@
+{
+    "resultData": [
+        {
+            "province_id": 11,
+            "province_name": "สมุทรปราการ",
+            "district_id": 1105,
+            "district_name": "พระสมุทรเจดีย์",
+            "sub_district_id": 110503,
+            "sub_district_name": "แหลมฟ้าผ่า",
+            "addressText": "สมุทรปราการ >> พระสมุทรเจดีย์ >> แหลมฟ้าผ่า >> 10290",
+            "zipcode": "10290"
+        },
+        {
+            "province_id": 14,
+            "province_name": "พระนครศรีอยุธยา",
+            "district_id": 1413,
+            "district_name": "บางซ้าย",
+            "sub_district_id": 141302,
+            "sub_district_name": "แก้วฟ้า",
+            "addressText": "พระนครศรีอยุธยา >> บางซ้าย >> แก้วฟ้า >> 13270",
+            "zipcode": "13270"
+        },
+        {
+            "province_id": 15,
+            "province_name": "อ่างทอง",
+            "district_id": 1502,
+            "district_name": "ไชโย",
+            "sub_district_id": 150207,
+            "sub_district_name": "หลักฟ้า",
+            "addressText": "อ่างทอง >> ไชโย >> หลักฟ้า >> 14140",
+            "zipcode": "14140"
+        },
+        {
+            "province_id": 27,
+            "province_name": "สระแก้ว",
+            "district_id": 2706,
+            "district_name": "อรัญประเทศ",
+            "sub_district_id": 270612,
+            "sub_district_name": "ฟากห้วย",
+            "addressText": "สระแก้ว >> อรัญประเทศ >> ฟากห้วย >> 27120",
+            "zipcode": "27120"
+        },
+        {
+            "province_id": 30,
+            "province_name": "นครราชสีมา",
+            "district_id": 3011,
+            "district_name": "ขามสะแกแสง",
+            "sub_district_id": 301106,
+            "sub_district_name": "หนองหัวฟาน",
+            "addressText": "นครราชสีมา >> ขามสะแกแสง >> หนองหัวฟาน >> 30290",
+            "zipcode": "30290"
+        },
+        {
+            "province_id": 31,
+            "province_name": "บุรีรัมย์",
+            "district_id": 3102,
+            "district_name": "คูเมือง",
+            "sub_district_id": 310205,
+            "sub_district_name": "หินเหล็กไฟ",
+            "addressText": "บุรีรัมย์ >> คูเมือง >> หินเหล็กไฟ >> 31190",
+            "zipcode": "31190"
+        },
+        {
+            "province_id": 31,
+            "province_name": "บุรีรัมย์",
+            "district_id": 3109,
+            "district_name": "พุทไธสง",
+            "sub_district_id": 310902,
+            "sub_district_name": "มะเฟือง",
+            "addressText": "บุรีรัมย์ >> พุทไธสง >> มะเฟือง >> 31120",
+            "zipcode": "31120"
+        },
+        {
+            "province_id": 33,
+            "province_name": "ศรีสะเกษ",
+            "district_id": 3302,
+            "district_name": "ยางชุมน้อย",
+            "sub_district_id": 330202,
+            "sub_district_name": "ลิ้นฟ้า",
+            "addressText": "ศรีสะเกษ >> ยางชุมน้อย >> ลิ้นฟ้า >> 33190",
+            "zipcode": "33190"
+        },
+        {
+            "province_id": 35,
+            "province_name": "ยโสธร",
+            "district_id": 3502,
+            "district_name": "ทรายมูล",
+            "sub_district_id": 350203,
+            "sub_district_name": "ดงมะไฟ",
+            "addressText": "ยโสธร >> ทรายมูล >> ดงมะไฟ >> 35170",
+            "zipcode": "35170"
+        },
+        {
+            "province_id": 35,
+            "province_name": "ยโสธร",
+            "district_id": 3506,
+            "district_name": "มหาชนะชัย",
+            "sub_district_id": 350601,
+            "sub_district_name": "ฟ้าหยาด",
+            "addressText": "ยโสธร >> มหาชนะชัย >> ฟ้าหยาด >> 35130",
+            "zipcode": "35130"
+        },
+        {
+            "province_id": 35,
+            "province_name": "ยโสธร",
+            "district_id": 3507,
+            "district_name": "ค้อวัง",
+            "sub_district_id": 350701,
+            "sub_district_name": "ฟ้าห่วน",
+            "addressText": "ยโสธร >> ค้อวัง >> ฟ้าห่วน >> 35160",
+            "zipcode": "35160"
+        },
+        {
+            "province_id": 36,
+            "province_name": "ชัยภูมิ",
+            "district_id": 3612,
+            "district_name": "แก้งคร้อ",
+            "sub_district_id": 361209,
+            "sub_district_name": "ท่ามะไฟหวาน",
+            "addressText": "ชัยภูมิ >> แก้งคร้อ >> ท่ามะไฟหวาน >> 36150",
+            "zipcode": "36150"
+        },
+        {
+            "province_id": 39,
+            "province_name": "หนองบัวลำภู",
+            "district_id": 3901,
+            "district_name": "เมืองหนองบัวลำภู",
+            "sub_district_id": 390107,
+            "sub_district_name": "นามะเฟือง",
+            "addressText": "หนองบัวลำภู >> เมืองหนองบัวลำภู >> นามะเฟือง >> 39000",
+            "zipcode": "39000"
+        },
+        {
+            "province_id": 39,
+            "province_name": "หนองบัวลำภู",
+            "district_id": 3905,
+            "district_name": "สุวรรณคูหา",
+            "sub_district_id": 390505,
+            "sub_district_name": "ดงมะไฟ",
+            "addressText": "หนองบัวลำภู >> สุวรรณคูหา >> ดงมะไฟ >> 39270",
+            "zipcode": "39270"
+        },
+        {
+            "province_id": 41,
+            "province_name": "อุดรธานี",
+            "district_id": 4103,
+            "district_name": "หนองวัวซอ",
+            "sub_district_id": 410304,
+            "sub_district_name": "กุดหมากไฟ",
+            "addressText": "อุดรธานี >> หนองวัวซอ >> กุดหมากไฟ >> 41220",
+            "zipcode": "41220"
+        },
+        {
+            "province_id": 45,
+            "province_name": "ร้อยเอ็ด",
+            "district_id": 4504,
+            "district_name": "จตุรพักตรพิมาน",
+            "sub_district_id": 450410,
+            "sub_district_name": "ลิ้นฟ้า",
+            "addressText": "ร้อยเอ็ด >> จตุรพักตรพิมาน >> ลิ้นฟ้า >> 45180",
+            "zipcode": "45180"
+        },
+        {
+            "province_id": 47,
+            "province_name": "สกลนคร",
+            "district_id": 4701,
+            "district_name": "เมืองสกลนคร",
+            "sub_district_id": 470115,
+            "sub_district_name": "ดงมะไฟ",
+            "addressText": "สกลนคร >> เมืองสกลนคร >> ดงมะไฟ >> 47000",
+            "zipcode": "47000"
+        },
+        {
+            "province_id": 50,
+            "province_name": "เชียงใหม่",
+            "district_id": 5001,
+            "district_name": "เมืองเชียงใหม่",
+            "sub_district_id": 500114,
+            "sub_district_name": "ฟ้าฮ่าม",
+            "addressText": "เชียงใหม่ >> เมืองเชียงใหม่ >> ฟ้าฮ่าม >> 50000",
+            "zipcode": "50000"
+        },
+        {
+            "province_id": 52,
+            "province_name": "ลำปาง",
+            "district_id": 5210,
+            "district_name": "แม่ทะ",
+            "sub_district_id": 521007,
+            "sub_district_name": "ดอนไฟ",
+            "addressText": "ลำปาง >> แม่ทะ >> ดอนไฟ >> 52150",
+            "zipcode": "52150"
+        },
+        {
+            "province_id": 53,
+            "province_name": "อุตรดิตถ์",
+            "district_id": 5305,
+            "district_name": "ฟากท่า",
+            "sub_district_id": 530501,
+            "sub_district_name": "ฟากท่า",
+            "addressText": "อุตรดิตถ์ >> ฟากท่า >> ฟากท่า >> 53160",
+            "zipcode": "53160"
+        },
+        {
+            "province_id": 53,
+            "province_name": "อุตรดิตถ์",
+            "district_id": 5307,
+            "district_name": "พิชัย",
+            "sub_district_id": 530707,
+            "sub_district_name": "ท่ามะเฟือง",
+            "addressText": "อุตรดิตถ์ >> พิชัย >> ท่ามะเฟือง >> 53120",
+            "zipcode": "53120"
+        },
+        {
+            "province_id": 54,
+            "province_name": "แพร่",
+            "district_id": 5401,
+            "district_name": "เมืองแพร่",
+            "sub_district_id": 540119,
+            "sub_district_name": "ร่องฟอง",
+            "addressText": "แพร่ >> เมืองแพร่ >> ร่องฟอง >> 54000",
+            "zipcode": "54000"
+        },
+        {
+            "province_id": 55,
+            "province_name": "น่าน",
+            "district_id": 5503,
+            "district_name": "บ้านหลวง",
+            "sub_district_id": 550301,
+            "sub_district_name": "บ้านฟ้า",
+            "addressText": "น่าน >> บ้านหลวง >> บ้านฟ้า >> 55190",
+            "zipcode": "55190"
+        },
+        {
+            "province_id": 55,
+            "province_name": "น่าน",
+            "district_id": 5512,
+            "district_name": "บ่อเกลือ",
+            "sub_district_id": 551204,
+            "sub_district_name": "ภูฟ้า",
+            "addressText": "น่าน >> บ่อเกลือ >> ภูฟ้า >> 55220",
+            "zipcode": "55220"
+        },
+        {
+            "province_id": 57,
+            "province_name": "เชียงราย",
+            "district_id": 5715,
+            "district_name": "แม่ฟ้าหลวง",
+            "sub_district_id": 571504,
+            "sub_district_name": "แม่ฟ้าหลวง",
+            "addressText": "เชียงราย >> แม่ฟ้าหลวง >> แม่ฟ้าหลวง >> 57240",
+            "zipcode": "57240"
+        },
+        {
+            "province_id": 60,
+            "province_name": "นครสวรรค์",
+            "district_id": 6012,
+            "district_name": "ตากฟ้า",
+            "sub_district_id": 601201,
+            "sub_district_name": "ตากฟ้า",
+            "addressText": "นครสวรรค์ >> ตากฟ้า >> ตากฟ้า >> 60190",
+            "zipcode": "60190"
+        },
+        {
+            "province_id": 63,
+            "province_name": "ตาก",
+            "district_id": 6302,
+            "district_name": "บ้านตาก",
+            "sub_district_id": 630207,
+            "sub_district_name": "ท้องฟ้า",
+            "addressText": "ตาก >> บ้านตาก >> ท้องฟ้า >> 63120",
+            "zipcode": "63120"
+        },
+        {
+            "province_id": 70,
+            "province_name": "ราชบุรี",
+            "district_id": 7007,
+            "district_name": "โพธาราม",
+            "sub_district_id": 700712,
+            "sub_district_name": "สร้อยฟ้า",
+            "addressText": "ราชบุรี >> โพธาราม >> สร้อยฟ้า >> 70120",
+            "zipcode": "70120"
+        },
+        {
+            "province_id": 73,
+            "province_name": "นครปฐม",
+            "district_id": 7303,
+            "district_name": "นครชัยศรี",
+            "sub_district_id": 730321,
+            "sub_district_name": "บางแก้วฟ้า",
+            "addressText": "นครปฐม >> นครชัยศรี >> บางแก้วฟ้า >> 73120",
+            "zipcode": "73120"
+        },
+        {
+            "province_id": 73,
+            "province_name": "นครปฐม",
+            "district_id": 7303,
+            "district_name": "นครชัยศรี",
+            "sub_district_id": 730322,
+            "sub_district_name": "ลานตากฟ้า",
+            "addressText": "นครปฐม >> นครชัยศรี >> ลานตากฟ้า >> 73120",
+            "zipcode": "73120"
+        },
+        {
+            "province_id": 77,
+            "province_name": "ประจวบคีรีขันธ์",
+            "district_id": 7707,
+            "district_name": "หัวหิน",
+            "sub_district_id": 770703,
+            "sub_district_name": "หินเหล็กไฟ",
+            "addressText": "ประจวบคีรีขันธ์ >> หัวหิน >> หินเหล็กไฟ >> 77110",
+            "zipcode": "77110"
+        }
+    ],
+    "success": true,
+    "error": null,
+    "message": null,
+    "next_module": null
+}

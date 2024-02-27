@@ -37,6 +37,10 @@ type BankST struct {
 	Code string `json:"code,omitempty"`
 	Name string `json:"name,omitempty"`
 }
+type BankBranchST struct {
+	Code string `json:"code,omitempty"`
+	Name string `json:"name,omitempty"`
+}
 type CountryST struct {
 	Code string `json:"code,omitempty"`
 	Name string `json:"name,omitempty"`
@@ -49,7 +53,7 @@ type BasicInfo struct {
 	MonthlyIncomeType        []MonthlyIncomeTypeST        `json:"monthly_income_type,omitempty"`
 	InvestmentObjectivesType []InvestmentObjectivesTypeST `json:"investment_objectives_type,omitempty"`
 	Bank                     []BankST                     `json:"bank,omitempty"`
-	BankBranch               any                          `json:"bank_branch,omitempty"`
+	BankBranch               []BankBranchST               `json:"bank_branch,omitempty"`
 	Country                  []CountryST                  `json:"country,omitempty"`
 	Education                []EducationST                `json:"education,omitempty"`
 	Province                 any                          `json:"province,omitempty"`
