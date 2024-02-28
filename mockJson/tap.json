@@ -1,9 +1,5 @@
-[
-    {
-        "id": 1,
-        "name": "พนักงานรัฐวิสาหกิจ",
-        "business_flag": "N",
-        "workplace_flag": "Y",
-        "position_flag": "Y"
-    }
-]
+{
+    "module": "module_preinfo",
+    "parameters": "{\"PrefixT\":\"1\",\"FNameT\":\"ฟ\",\"LNameT\":\"ฟ\",\"PrefixE\":\"1\",\"FNameE\":\"a\",\"LNameE\":\"a\",\"Email\":\"a@b.cc\",\"Mobile\":\"0987890987\",\"MobileCountryCode\":null,\"token\":null,\"status_module\":\"next_module\"}",
+    "session":"2"
+}

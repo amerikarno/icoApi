@@ -100,6 +100,12 @@ func main() {
 	api.POST("/get-geo-data", preinfoHandler.GetTAPInfo())
 	api.POST("/get-Business-type-dropdown", preinfoHandler.GetCarrerTypes())
 	api.POST("/get-basic-branch-dropdown", preinfoHandler.GetBankBranch())
+	api.POST("/get-suite-questions", preinfoHandler.GetSuiteTestQuestions())
+	api.POST("/get-suite-select", preinfoHandler.GetSuiteSelect())
+	api.POST("/get-knowledge-questions", preinfoHandler.GetKnowledgeTestQuestions())
+	api.GET("/loadTempdata/module_suitfatca", preinfoHandler.FATCAmodule())
+	api.GET("/module_suitfatca", preinfoHandler.FATCAmodule())
+	api.GET("/module_otp", preinfoHandler.CheckExistMobile())
 	
 	// server := http.Server{
 	// 	Addr: ":1323",

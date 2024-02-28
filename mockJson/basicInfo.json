@@ -1,15 +1,13 @@
 {
-    "data": "{\"Address\":null,\"Moo\":null,\"Floor\":null,\"Mooban\":null,\"Soi\":null,\"Road\":null,\"Distric_id\":null,\"Distric\":null,\"Amphoe_id\":null,\"Amphoe\":null,\"Province_id\":null,\"Province\":null,\"Zipcode\":null,\"Countryid\":null,\"Country\":null,\"AddressCurrent\":null,\"MooCurrent\":null,\"FloorCurrent\":null,\"MoobanCurrent\":null,\"SoiCurrent\":null,\"RoadCurrent\":null,\"DistricCurrent_id\":null,\"DistricCurrent\":null,\"AmphoeCurrent_id\":null,\"AmphoeCurrent\":null,\"ProvinceCurrent_id\":null,\"ProvinceCurrent\":null,\"ZipcodeCurrent\":null,\"CountryCurrentid\":null,\"CountryCurrent\":null,\"Careerid\":null,\"Career\":null,\"BusinessTypeid\":null,\"BusinessType\":null,\"Position\":null,\"WorkPlaceName\":null,\"AddressWork\":null,\"MooWork\":null,\"FloorWork\":null,\"MoobanWork\":null,\"SoiWork\":null,\"RoadWork\":null,\"DistricWork_id\":null,\"DistricWork\":null,\"AmphoeWork_id\":null,\"AmphoeWork\":null,\"ProvinceWork_id\":null,\"ProvinceWork\":null,\"ZipcodeWork\":null,\"CountryWorkid\":null,\"CountryWork\":null,\"SourceOfInvestmentid\":null,\"SourceOfInvestment\":null,\"MonthlyIncomeid\":null,\"MonthlyIncome\":null,\"InvestmentObjectives\":null,\"BankName\":null,\"BankCode\":null,\"BankBranch\":null,\"BankBranchCode\":null,\"BankNo\":null,\"SubBankName\":null,\"SubBankCode\":null,\"SubBankBranch\":null,\"SubBankBranchCode\":null,\"SubBankNo\":null,\"CurrentChoice\":null,\"WorkChoice\":null,\"SubBranchChoice\":null,\"status_module\":null,\"EducationLevelId\":null,\"EducationLevel\":null,\"success\":false,\"error\":null,\"message\":null,\"next_module\":null}",
-    "uid": null,
-    "module": null,
-    "created_timestamp": null,
-    "updated_timestamp": null,
-    "email": null,
-    "name": null,
-    "surname": null,
-    "sessionOTP": null,
+    "uid": "3123123123123",
+    "email": "",
+    "mobile": "0811223344",
+    "ref_id": "PRTQB",
+    "verify_sms": "",
+    "verify_email": "",
+    "info": "",
     "success": true,
-    "error": null,
-    "message": null,
-    "next_module": null
+    "error": "",
+    "message": "",
+    "next_module": ""
 }

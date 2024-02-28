@@ -62,3 +62,25 @@ if err != nil {
 		return c.JSON(http.StatusOK, resp)
 	}
 }
+
+if module == "module_top" {
+			// databyte = []byte(mockJson.OTPdata)
+			// infobyte = []byte(mockJson.OTPinfo)
+			otpnext = models.OTPNextModule{
+				Module:     "4",
+				GroupType:  4,
+				PageNumber: 1,
+				Page:       "identity",
+				Sub:        "selection",
+				Step:       "type",
+				URL:        "identity/selection/type",
+				Success:    false,
+			}
+			otpdata = models.OTPdata{}
+		}
+		resp.Data.Info = otpinfo
+		resp.Data = otpdata
+		resp.NextModule = otpnext
+		resp.SessionOTP = "387e7f4993c04a16a95c2b6a754d2768"
+		resp.Success = true
+		return c.JSON(http.StatusOK, resp)
